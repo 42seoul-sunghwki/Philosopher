@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/02/04 00:38:40 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/02/04 01:00:03 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ void	*philo(void *input)
 	long	microsec_now;
 	long	start_eating; //millisecond
 	//long	start_sleeping;
-	long	start_thinking;
+	//long	start_thinking;
 
 	ph = *(t_thread *)input;
 	info = ph.info;
 	start_time = ft_now_microsec();
 	//start_sleeping = 0;
 	start_eating = 0;
-	start_thinking = 0;
+	//start_thinking = 0;
 	
 	//eating
 	while (1)
@@ -65,7 +65,7 @@ void	*philo(void *input)
 					pthread_mutex_unlock(ph.left_fork);
 				}
 			}
-			usleep(10);
+			usleep(50);
 		}
 	}
 	else
@@ -88,27 +88,23 @@ void	*philo(void *input)
 					pthread_mutex_unlock(ph.right_fork);
 				}
 			}
-			usleep(10);
+			usleep(50);
 		}
 	}
-	//thinking printing
-	if (start_thinking)
-	{
-		microsec_now = ft_now_microsec();
-		if (microsec_now - start_eating >= info.time_to_die)
-		{
-			
-			*ph.count_eat = -1;
-			if (_msg_philo(ph.print, microsec_now - start_time, ph.ph_name, "died"))
-				return (NULL);
-		}
-		else
-		{
-			if (_msg_philo(ph.print, microsec_now - start_time, ph.ph_name, "is thinking"))
-				return (NULL);
-		}
-	}
+	//eating printing
 	start_eating = ft_now_microsec();
+	microsec_now = ft_now_microsec();
+	if (microsec_now - start_eating >= info.time_to_die)
+	{
+		*ph.count_eat = -1;
+		if (_msg_philo(ph.print, microsec_now - start_time, ph.ph_name, "died"))
+			return (NULL);
+	}
+	else
+	{
+		if (_msg_philo(ph.print, microsec_now - start_time, ph.ph_name, "is eating"))
+			return (NULL);
+	}
 	if (info.time_to_die <= info.time_to_eat)
 		usleep(info.time_to_die);
 	else
@@ -127,25 +123,6 @@ void	*philo(void *input)
 		pthread_mutex_unlock(ph.right_fork);
 		pthread_mutex_unlock(ph.left_fork);
 	}
-	//eating or dying printing
-	microsec_now = ft_now_microsec();
-	if (microsec_now - start_eating >= info.time_to_die)
-	{
-		*ph.count_eat = -1;
-		if (_msg_philo(ph.print, microsec_now - start_time, ph.ph_name, "died"))
-			return (NULL);
-	}
-	else
-	{
-		if (_msg_philo(ph.print, microsec_now - start_time, ph.ph_name, "is eating"))
-			return (NULL);
-	}
-	//sleeping
-	//start_sleeping = ft_now_microsec();
-	if (info.time_to_die - info.time_to_eat <= info.time_to_sleep)
-		usleep(info.time_to_die - info.time_to_eat);
-	else
-		usleep(info.time_to_sleep);
 	//sleeping or dying printing
 	microsec_now = ft_now_microsec();
 	if (microsec_now - start_eating >= info.time_to_die)
@@ -159,6 +136,26 @@ void	*philo(void *input)
 		if (_msg_philo(ph.print, microsec_now - start_time, ph.ph_name, "is sleeping"))
 			return (NULL);
 	}
-	start_thinking = ft_now_microsec();
+	//sleeping
+	//start_sleeping = ft_now_microsec();
+	if (info.time_to_die - info.time_to_eat <= info.time_to_sleep)
+		usleep(info.time_to_die - info.time_to_eat);
+	else
+		usleep(info.time_to_sleep);
+	//thinking printing
+	//start_thinking = ft_now_microsec();
+	microsec_now = ft_now_microsec();
+	if (microsec_now - start_eating >= info.time_to_die)
+	{
+		
+		*ph.count_eat = -1;
+		if (_msg_philo(ph.print, microsec_now - start_time, ph.ph_name, "died"))
+			return (NULL);
+	}
+	else
+	{
+		if (_msg_philo(ph.print, microsec_now - start_time, ph.ph_name, "is thinking"))
+			return (NULL);
+	}
 	}
 }

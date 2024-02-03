@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/02/04 00:40:34 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/02/04 00:55:50 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	main(int argc, char **argv)
 	{
 		if (count_eat < 0) //종료 확인
 			break ;
-		usleep(THOUSAND);
+		usleep(10);
 	}
 	//할당 해제
 	i = 0;
