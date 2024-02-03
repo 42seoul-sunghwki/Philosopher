@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/02/02 23:27:04 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/02/04 00:40:34 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	main(int argc, char **argv)
 	if (argc == 5 || argc == 6)
 	{
 		err[i] = ft_input_to_long(argv[i + 1], &(info.num_philo));
-		printf("%ld\n", info.num_philo);
 		i++;
 		err[i] = ft_input_to_long(argv[i + 1], &(info.time_to_die));
 		info.time_to_die *= THOUSAND;
