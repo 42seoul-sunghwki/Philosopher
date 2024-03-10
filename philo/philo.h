@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:27:26 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/09 21:36:48 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 01:23:43 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ typedef struct s_thread {
 	long	*right_f;
 	long	ph_name;
 	long	*count_eat;
-
+	long	*start_time; //start time을 parent에서 정해준다.
+	long	*how_many_eat;
+	int		*flag;
 } t_thread;
 
 int	ft_islong(const char *str);

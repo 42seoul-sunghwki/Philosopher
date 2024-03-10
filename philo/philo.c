@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/10 09:13:15 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 01:02:19 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,7 @@ int	main(int argc, char **argv)
 	{
 		pthread_create(&th_name[i], NULL, philo, (void *)(&ph[i]));
 		pthread_detach(th_name[i]);
-		i += 2;
-	}
-	i = 1;
-	while (i < info.num_philo)
-	{
-		pthread_create(&th_name[i], NULL, philo, (void *)(&ph[i]));
-		pthread_detach(th_name[i]);
-		i += 2;
+		i++;
 	}
 	while (1)
 	{
@@ -123,6 +116,7 @@ int	main(int argc, char **argv)
 	}
 	//할당 해제
 	i = 0;
+	printf("end\n");
 	pthread_mutex_destroy(&print);
 	pthread_mutex_destroy(&count_mutex);
 	while (i < info.num_philo)
