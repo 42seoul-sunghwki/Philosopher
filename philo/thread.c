@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/10 09:21:36 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/10 10:32:37 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,50 +72,64 @@ void	*philo(void *input)
 	{
 	if (ph.ph_name % 2 == 0)
 	{
-		while (1)
-		{
-			if (*ph.left_f == FALSE)
-			{
-				pthread_mutex_lock(ph.left_fork);
-				*ph.left_f = TRUE;
-				if (*ph.right_f == FALSE)
-				{
-					pthread_mutex_lock(ph.right_fork);
-					*ph.right_f = TRUE;
-					break;
-				}
-				else
-				{
-					*ph.left_f = FALSE;
-					pthread_mutex_unlock(ph.left_fork);
-				}
-			}
-			usleep(50);
-		}
+		pthread_mutex_lock(ph.left_fork);
+		*ph.left_f = TRUE;
+		pthread_mutex_lock(ph.right_fork);
+		*ph.right_f = TRUE;
+		//while (1)
+		//{
+
+		//	if (*ph.left_f == FALSE)
+		//	{
+		//		pthread_mutex_lock(ph.left_fork);
+		//		*ph.left_f = TRUE;
+		//		if (*ph.right_f == FALSE)
+		//		{
+		//			pthread_mutex_lock(ph.right_fork);
+		//			*ph.right_f = TRUE;
+		//			break;
+		//		}
+		//		else
+		//		{
+		//			*ph.left_f = FALSE;
+		//			pthread_mutex_unlock(ph.left_fork);
+		//		}
+		//	}
+		//	usleep(50);
+		//}
 	}
 	else
 	{
-		while (1)
-		{
-			if (*ph.right_f == FALSE)
-			{
-				pthread_mutex_lock(ph.right_fork);
-				*ph.right_f = TRUE;
-				if (*ph.left_f == FALSE)
-				{
-					pthread_mutex_lock(ph.left_fork);
-					*ph.left_f = TRUE;
-					break;
-				}
-				else
-				{
-					*ph.right_f = FALSE;
-					pthread_mutex_unlock(ph.right_fork);
-				}
-			}
-			usleep(50);
-		}
+		pthread_mutex_lock(ph.right_fork);
+		*ph.right_f = TRUE;
+		pthread_mutex_lock(ph.left_fork);
+		*ph.left_f = TRUE;
+		//while (1)
+		//{
+		//	if (*ph.right_f == FALSE)
+		//	{
+		//		pthread_mutex_lock(ph.right_fork);
+		//		*ph.right_f = TRUE;
+		//		if (*ph.left_f == FALSE)
+		//		{
+		//			pthread_mutex_lock(ph.left_fork);
+		//			*ph.left_f = TRUE;
+		//			break;
+		//		}
+		//		else
+		//		{
+		//			*ph.right_f = FALSE;
+		//			pthread_mutex_unlock(ph.right_fork);
+		//		}
+		//	}
+		//	usleep(50);
+		//}
 	}
+	pthread_mutex_lock(ph.left_fork);
+	*ph.left_f = TRUE;
+	pthread_mutex_lock(ph.right_fork);
+	*ph.right_f = TRUE;
+
 	//eating printing
 	start_eating = ft_now_microsec();
 	microsec_now = ft_now_microsec();
