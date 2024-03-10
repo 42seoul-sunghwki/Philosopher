@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 08:45:07 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 08:53:12 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,10 +127,10 @@ void	*philo(void *input)
 	//	}
 	//}
 	
-	pthread_mutex_lock(ph.left_fork); //그냥 생짜로 잡게 함 - 가장 퍼포먼스가 낮음.
-	*ph.left_f = TRUE;
-	pthread_mutex_lock(ph.right_fork);
-	*ph.right_f = TRUE;
+	//pthread_mutex_lock(ph.left_fork); //그냥 생짜로 잡게 함 - 가장 퍼포먼스가 낮음.
+	//*ph.left_f = TRUE;
+	//pthread_mutex_lock(ph.right_fork);
+	//*ph.right_f = TRUE;
 	
 	
 	//eating printing
