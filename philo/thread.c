@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 09:08:47 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 10:15:47 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ void	*philo(void *input)
 			pthread_mutex_unlock(ph.left_fork);
 			pthread_mutex_unlock(ph.right_fork);
 		}
-		usleep(50);
+		usleep(100);
 	}
 	pthread_mutex_unlock(ph.left_fork);
 	pthread_mutex_unlock(ph.right_fork);
@@ -178,7 +178,13 @@ void	*philo(void *input)
 		microsec_now = ft_now_microsec();
 		if (microsec_now - start_eating >= info.time_to_eat)
 			break;
-		usleep(5);
+		if (info.time_to_eat - (microsec_now - start_eating) >= THOUSAND)
+		{
+			usleep((info.time_to_eat - (microsec_now - start_eating)) / 2);
+		}
+		else
+			usleep(10);
+		//usleep(5);
 	}
 	//if (ph.ph_name % 2 == 0)
 	//{
@@ -229,13 +235,13 @@ void	*philo(void *input)
 		microsec_now = ft_now_microsec();
 		if (microsec_now - start_eating >= info.time_to_sleep + info.time_to_eat)
 			break;
-		//if (microsec_now - start_eating >= THOUSAND)
-		//{
-		//	usleep((microsec_now - start_eating) / 2);
-		//}
-		//else
-		//	usleep(100);
-		usleep(5);
+		if (info.time_to_sleep + info.time_to_eat - (microsec_now - start_eating) >= THOUSAND)
+		{
+			usleep((info.time_to_sleep + info.time_to_eat - (microsec_now - start_eating)) / 2);
+		}
+		else
+			usleep(10);
+		//usleep(5);
 	}
 	//thinking printing
 	//start_thinking = ft_now_microsec();
