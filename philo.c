@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 16:50:35 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 18:09:48 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,38 +45,37 @@ int	main(int argc, char **argv)
 
 	//입력값 처리
 	i = 0;
-	if (argc == 5 || argc == 6)
+	if (!(argc == 5 || argc == 6))
 	{
-		err[i] = ft_input_to_long(argv[i + 1], &(info.num_philo));
+		printf("Invalid Input Size");
+		return (1);
+	}
+	err[i] = ft_input_to_long(argv[i + 1], &(info.num_philo));
+	i++;
+	err[i] = ft_input_to_long(argv[i + 1], &(info.time_to_die));
+	info.time_to_die *= THOUSAND;
+	i++;
+	err[i] = ft_input_to_long(argv[i + 1], &(info.time_to_eat));
+	info.time_to_eat *= THOUSAND;
+	i++;
+	err[i] = ft_input_to_long(argv[i + 1], &(info.time_to_sleep));
+	info.time_to_sleep *= THOUSAND;
+	i++;
+	if (argc == 6)
+	{
+		err[i] = ft_input_to_long(argv[i + 1], &(info.num_must_eat));
 		i++;
-		err[i] = ft_input_to_long(argv[i + 1], &(info.time_to_die));
-		info.time_to_die *= THOUSAND;
-		i++;
-		err[i] = ft_input_to_long(argv[i + 1], &(info.time_to_eat));
-		info.time_to_eat *= THOUSAND;
-		i++;
-		err[i] = ft_input_to_long(argv[i + 1], &(info.time_to_sleep));
-		info.time_to_sleep *= THOUSAND;
-		i++;
-		if (argc == 6)
-		{
-			err[i] = ft_input_to_long(argv[i + 1], &(info.num_must_eat));
-			i++;
-		}
-		else
-		{
-			info.num_must_eat = 0;
-			err[i] = 0;
-		}
-		while (i >= 0)
-			if (err[--i])
-				return (1);
 	}
 	else
 	{
-		printf("Error!");
-		return (1);
+		info.num_must_eat = 0;
+		err[i] = 0;
 	}
+	while (i >= 0)
+		if (err[--i])
+		{
+			return (1);
+		}
 	
 	//프로세싱
 	i = 0;
@@ -124,7 +123,6 @@ int	main(int argc, char **argv)
 	}
 	//할당 해제
 	i = 0;
-	printf("end\n");
 	pthread_mutex_destroy(&print);
 	pthread_mutex_destroy(&count_mutex);
 	while (i < info.num_philo)

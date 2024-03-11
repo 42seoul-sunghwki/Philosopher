@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 17:01:11 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 18:48:01 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,42 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-int	_msg_philo(pthread_mutex_t *mutex, t_msg *msg)
+int	_msg_philo(t_thread *ph, t_msg *msg)
 {
 	int	ret;
+	int	die;
 
-	ret = pthread_mutex_lock(mutex);
-	if (ret)
-		return (ret);
+	ret = pthread_mutex_lock(ph->print);
+	die = DIE;
+	if (ret || *(ph->flag) == DIE)
+	{
+		pthread_mutex_unlock(ph->print);
+		return (FUN_FAIL);
+	}
+	if (msg->flag == EAT)
+	{
+		ph->count_eat++;
+		if (ph->how_many_eat && ph->count_eat >= ph->how_many_eat)
+		{
+			ph->flag = &die;
+			pthread_mutex_unlock(ph->print);
+			return (FUN_FAIL);
+		}
+	}
 	printf("%ld %ld %s\n", msg->time, msg->ph, msg->msg);
-	ret = pthread_mutex_unlock(mutex);
+	ret = pthread_mutex_unlock(ph->print);
 	return (ret);
 }
+
+//int		check_status(t_thread *ph, long base_time, long cmp_time, int flag)
+//{
+//	int		ret;
+//	t_msg	msg;
+
+//	if (flag == SLEEP)
+		
+		
+//}
 
 void	*philo(void *input)
 {
@@ -55,13 +80,14 @@ void	*philo(void *input)
 	msg.ph = ph.ph_name;
 	//start_sleeping = 0;
 	if (ph.ph_name % 2 == 0)
-		usleep(100);
+		usleep(200);
 	start_eating = ft_now_microsec();
 	//start_thinking = 0;
 	
 	//usleep(20 * (ph.info.num_philo - ph.ph_name));
 	//start_time = ft_now_microsec();
-	//eating
+
+	//start
 	while (1)
 	{
 		if (ph.ph_name % 2 == 0)
@@ -72,6 +98,7 @@ void	*philo(void *input)
 			{
 				pthread_mutex_lock(ph.left_fork);
 				*ph.left_f = TRUE;
+				
 				if (*ph.right_f == FALSE)
 				{
 					pthread_mutex_lock(ph.right_fork);
@@ -86,6 +113,7 @@ void	*philo(void *input)
 					pthread_mutex_unlock(ph.left_fork);
 				}
 			}
+			
 			usleep(100);
 		}
 		}
@@ -97,6 +125,7 @@ void	*philo(void *input)
 				{
 					pthread_mutex_lock(ph.right_fork);
 					*ph.right_f = TRUE;
+					
 					if (*ph.left_f == FALSE)
 					{
 						pthread_mutex_lock(ph.left_fork);
@@ -155,19 +184,20 @@ void	*philo(void *input)
 	microsec_now = ft_now_microsec();
 	if (microsec_now - start_eating >= info.time_to_die)
 	{
-		*ph.count_eat = -1; //adhoc, add flag require
 		msg.msg = DIE_MSG;
 		ph.flag = &die;
 		msg.time = (microsec_now - *ph.start_time) / THOUSAND;
-		if (_msg_philo(ph.print, &msg))
+		if (_msg_philo(&ph, &msg))
 			return (NULL);
 	}
 	else
 	{
 		msg.msg = EAT_MSG;
+		msg.flag = EAT;
 		msg.time = (microsec_now - *ph.start_time) / THOUSAND;
-		if (_msg_philo(ph.print, &msg))
+		if (_msg_philo(&ph, &msg))
 			return (NULL);
+		msg.flag = FALSE;
 	}
 	//if (info.time_to_die <= info.time_to_eat) //이렇게 설계하지 말고, usleep을 짧고, 많이 하여 해결하자.
 	//	usleep(info.time_to_die);
@@ -213,14 +243,14 @@ void	*philo(void *input)
 		msg.msg = DIE_MSG;
 		ph.flag = &die;
 		msg.time = (microsec_now - *ph.start_time) / THOUSAND;
-		if (_msg_philo(ph.print, &msg))
+		if (_msg_philo(&ph, &msg))
 			return (NULL);
 	}
 	else
 	{
 		msg.msg = SLEEP_MSG;
 		msg.time = (microsec_now - *ph.start_time) / THOUSAND;
-		if (_msg_philo(ph.print, &msg))
+		if (_msg_philo(&ph, &msg))
 			return (NULL);
 	}
 	//sleeping
@@ -253,14 +283,14 @@ void	*philo(void *input)
 		msg.msg = DIE_MSG;
 		ph.flag = &die;
 		msg.time = (microsec_now - *ph.start_time) / THOUSAND;
-		if (_msg_philo(ph.print, &msg))
+		if (_msg_philo(&ph, &msg))
 			return (NULL);
 	}
 	else
 	{
 		msg.msg = THINK_MSG;
 		msg.time = (microsec_now - *ph.start_time) / THOUSAND;
-		if (_msg_philo(ph.print, &msg))
+		if (_msg_philo(&ph, &msg))
 			return (NULL);
 	}
 	}

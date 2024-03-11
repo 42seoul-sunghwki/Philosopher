@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:27:26 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 13:00:42 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 18:44:16 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,14 @@
 # define INT_MAX	2147483647
 # define INT_MIN	-2147483648
 # define THOUSAND	1000
+
 # define TRUE		1
 # define FALSE		0
 
+# define FUN_SUC	0
+# define FUN_FAIL	1
+
+# define NOT_CHECK	0
 # define SLEEP		1
 # define EAT		2
 # define THINK		3
@@ -34,6 +39,8 @@
 # define SLEEP_MSG	"is sleeping"
 # define EAT_MSG	"is eating"
 # define THINK_MSG	"is thinking"
+# define TAKE_MSG	"has taken a fork"
+# define UNTAKE_MSG	"drop a fork"
 # define DIE_MSG	"died"
 
 typedef struct s_info {
@@ -48,6 +55,7 @@ typedef struct s_msg {
 	pthread_mutex_t	*print;
 	long			time;
 	long			ph;
+	long			flag;
 	char			*msg;
 } t_msg;
 
