@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 10:31:50 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 10:52:07 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	*philo(void *input)
 	t_info		info;
 	t_msg		msg;
 	//int		ret;
-	long	start_time;
+	//long	start_time;
 	long	microsec_now;
 	long	start_eating; //millisecond
 	//long	start_sleeping;
@@ -69,7 +69,7 @@ void	*philo(void *input)
 	//start_thinking = 0;
 	
 	//usleep(20 * (ph.info.num_philo - ph.ph_name));
-	start_time = ft_now_microsec();
+	//start_time = ft_now_microsec();
 	//eating
 	while (1)
 	{
@@ -160,14 +160,14 @@ void	*philo(void *input)
 	{
 		*ph.count_eat = -1;
 		msg.msg = DIE;
-		msg.time = (microsec_now - start_time) / THOUSAND;
+		msg.time = (microsec_now - *ph.start_time) / THOUSAND;
 		if (_msg_philo(ph.print, &msg))
 			return (NULL);
 	}
 	else
 	{
 		msg.msg = EAT;
-		msg.time = (microsec_now - start_time) / THOUSAND;
+		msg.time = (microsec_now - *ph.start_time) / THOUSAND;
 		if (_msg_philo(ph.print, &msg))
 			return (NULL);
 	}
@@ -214,14 +214,14 @@ void	*philo(void *input)
 	{
 		*ph.count_eat = -1;
 		msg.msg = DIE;
-		msg.time = (microsec_now - start_time) / THOUSAND;
+		msg.time = (microsec_now - *ph.start_time) / THOUSAND;
 		if (_msg_philo(ph.print, &msg))
 			return (NULL);
 	}
 	else
 	{
 		msg.msg = SLEEP;
-		msg.time = (microsec_now - start_time) / THOUSAND;
+		msg.time = (microsec_now - *ph.start_time) / THOUSAND;
 		if (_msg_philo(ph.print, &msg))
 			return (NULL);
 	}
@@ -253,14 +253,14 @@ void	*philo(void *input)
 		
 		*ph.count_eat = -1;
 		msg.msg = DIE;
-		msg.time = (microsec_now - start_time) / THOUSAND;
+		msg.time = (microsec_now - *ph.start_time) / THOUSAND;
 		if (_msg_philo(ph.print, &msg))
 			return (NULL);
 	}
 	else
 	{
 		msg.msg = THINK;
-		msg.time = (microsec_now - start_time) / THOUSAND;
+		msg.time = (microsec_now - *ph.start_time) / THOUSAND;
 		if (_msg_philo(ph.print, &msg))
 			return (NULL);
 	}

@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 10:32:12 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 10:51:30 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	main(int argc, char **argv)
 	t_info			info;
 	t_thread		*ph;
 	long			*fork;
+	long			start_time;
 	int				err[5];
 	long			i;
 	long	count_eat;
@@ -88,6 +89,7 @@ int	main(int argc, char **argv)
 	ph = (t_thread *)malloc((sizeof(t_thread) * info.num_philo));
 	th_name = (pthread_t *)malloc(sizeof(pthread_t) * info.num_philo);
 	memset((void *)fork, 0, sizeof(long) * info.num_philo);
+	start_time = ft_now_microsec();
 	while (i < info.num_philo)
 	{
 		ph[i].print = &print;
@@ -99,9 +101,11 @@ int	main(int argc, char **argv)
 		ph[i].left_f = &fork[i];
 		ph[i].right_f = &fork[(i + 1) % info.num_philo];
 		ph[i].count_eat = &count_eat;
+		ph[i].start_time = &start_time;
 		i += 1;
 	}
 	i = 0;
+	start_time = ft_now_microsec();
 	while (i < info.num_philo)
 	{
 		pthread_create(&th_name[i], NULL, philo, (void *)(&ph[i]));
@@ -137,5 +141,6 @@ int	main(int argc, char **argv)
 	free(fork_table);
 	free(th_name);
 	free(ph);
+	printf("start_time : %ld\n", start_time);
 	return (0);
 }
