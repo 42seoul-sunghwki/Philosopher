@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 08:53:12 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 09:08:07 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,25 @@ void	*philo(void *input)
 	//pthread_mutex_lock(ph.right_fork);
 	//*ph.right_f = TRUE;
 	
-	
+	while (TRUE)
+	{
+		pthread_mutex_lock(ph.left_fork);
+		pthread_mutex_lock(ph.right_fork);
+		if (*ph.left_f == FALSE && *ph.right_f == FALSE)
+		{
+			*ph.left_f = TRUE;
+			*ph.right_f = TRUE;
+			break;
+		}
+		else
+		{
+			pthread_mutex_unlock(ph.left_fork);
+			pthread_mutex_unlock(ph.right_fork);
+		}
+		usleep(50);
+	}
+	pthread_mutex_unlock(ph.left_fork);
+	pthread_mutex_unlock(ph.right_fork);
 	//eating printing
 	start_eating = ft_now_microsec();
 	microsec_now = ft_now_microsec();
@@ -204,6 +222,12 @@ void	*philo(void *input)
 		microsec_now = ft_now_microsec();
 		if (microsec_now - start_eating >= info.time_to_sleep + info.time_to_eat)
 			break;
+		//if (microsec_now - start_eating >= THOUSAND)
+		//{
+		//	usleep((microsec_now - start_eating) / 2);
+		//}
+		//else
+		//	usleep(100);
 		usleep(5);
 	}
 	//thinking printing
