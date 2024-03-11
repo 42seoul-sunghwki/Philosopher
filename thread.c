@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+	/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   thread.c                                           :+:      :+:    :+:   */
@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 18:48:01 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 19:10:17 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,33 @@ int	_msg_philo(t_thread *ph, t_msg *msg)
 	return (ret);
 }
 
-//int		check_status(t_thread *ph, long base_time, long cmp_time, int flag)
-//{
-//	int		ret;
-//	t_msg	msg;
+int		check_status(t_thread *ph, long base_time, long cmp_time, int flag)
+{
+	//int		ret;
+	t_msg	msg;
 
-//	if (flag == SLEEP)
-		
-		
-//}
+	msg.flag = flag;
+	msg.ph = ph->ph_name;
+	msg.print = ph->print;
+	msg.time = (ft_now_microsec() - *(ph->start_time)) / THOUSAND;
+	if (flag == SLEEP)
+		msg.msg = SLEEP_MSG;
+	else if (flag == EAT)
+		msg.msg = EAT_MSG;
+	else if (flag == THINK)
+		msg.msg = THINK_MSG;
+	if (base_time <= cmp_time)
+	{
+		if (flag != NOT_CHECK)
+			return (_msg_philo(ph, &msg));
+	}
+	else
+	{
+		msg.msg = DIE_MSG;
+		return (_msg_philo(ph, &msg));
+	}
+	return (FUN_SUC);
+}
 
 void	*philo(void *input)
 {
@@ -113,7 +131,9 @@ void	*philo(void *input)
 					pthread_mutex_unlock(ph.left_fork);
 				}
 			}
-			
+			microsec_now = ft_now_microsec();
+			if (check_status(&ph, microsec_now - start_eating, ph.info.time_to_die, NOT_CHECK) == FUN_FAIL)
+				return (NULL);
 			usleep(100);
 		}
 		}
@@ -140,6 +160,8 @@ void	*philo(void *input)
 						pthread_mutex_unlock(ph.right_fork);
 					}
 				}
+				if (check_status(&ph, microsec_now - start_eating, info.time_to_die, NOT_CHECK) == FUN_FAIL)
+					return (NULL);
 				usleep(100);
 			}
 		}
@@ -182,23 +204,27 @@ void	*philo(void *input)
 	//eating printing
 	start_eating = ft_now_microsec();
 	microsec_now = ft_now_microsec();
-	if (microsec_now - start_eating >= info.time_to_die)
-	{
-		msg.msg = DIE_MSG;
-		ph.flag = &die;
-		msg.time = (microsec_now - *ph.start_time) / THOUSAND;
-		if (_msg_philo(&ph, &msg))
-			return (NULL);
-	}
-	else
-	{
-		msg.msg = EAT_MSG;
-		msg.flag = EAT;
-		msg.time = (microsec_now - *ph.start_time) / THOUSAND;
-		if (_msg_philo(&ph, &msg))
-			return (NULL);
-		msg.flag = FALSE;
-	}
+	//if (microsec_now - start_eating >= info.time_to_die)
+	//{
+	//	msg.msg = DIE_MSG;
+	//	ph.flag = &die;
+	//	msg.time = (microsec_now - *ph.start_time) / THOUSAND;
+	//	if (_msg_philo(&ph, &msg))
+	//		return (NULL);
+	//}
+	//else
+	//{
+	//	msg.msg = EAT_MSG;
+	//	msg.flag = EAT;
+	//	msg.time = (microsec_now - *ph.start_time) / THOUSAND;
+	//	if (_msg_philo(&ph, &msg))
+	//		return (NULL);
+	//	msg.flag = FALSE;
+	//}
+
+	if (check_status(&ph, microsec_now - start_eating, info.time_to_die, EAT) == FUN_FAIL)
+		return (NULL);
+
 	//if (info.time_to_die <= info.time_to_eat) //이렇게 설계하지 말고, usleep을 짧고, 많이 하여 해결하자.
 	//	usleep(info.time_to_die);
 	//else
@@ -213,7 +239,7 @@ void	*philo(void *input)
 			usleep((info.time_to_eat - (microsec_now - start_eating)) / 2);
 		}
 		else
-			usleep(10);
+			usleep(50);
 	}
 	//if (ph.ph_name % 2 == 0)
 	//{
@@ -236,23 +262,27 @@ void	*philo(void *input)
 	pthread_mutex_unlock(ph.right_fork);
 
 	//sleeping or dying printing
-	microsec_now = ft_now_microsec();
-	if (microsec_now - start_eating >= info.time_to_die)
-	{
-		*ph.count_eat = -1;
-		msg.msg = DIE_MSG;
-		ph.flag = &die;
-		msg.time = (microsec_now - *ph.start_time) / THOUSAND;
-		if (_msg_philo(&ph, &msg))
-			return (NULL);
-	}
-	else
-	{
-		msg.msg = SLEEP_MSG;
-		msg.time = (microsec_now - *ph.start_time) / THOUSAND;
-		if (_msg_philo(&ph, &msg))
-			return (NULL);
-	}
+	//microsec_now = ft_now_microsec();
+	//if (microsec_now - start_eating >= info.time_to_die)
+	//{
+	//	*ph.count_eat = -1;
+	//	msg.msg = DIE_MSG;
+	//	ph.flag = &die;
+	//	msg.time = (microsec_now - *ph.start_time) / THOUSAND;
+	//	if (_msg_philo(&ph, &msg))
+	//		return (NULL);
+	//}
+	//else
+	//{
+	//	msg.msg = SLEEP_MSG;
+	//	msg.time = (microsec_now - *ph.start_time) / THOUSAND;
+	//	if (_msg_philo(&ph, &msg))
+	//		return (NULL);
+	//}
+
+	if (check_status(&ph, microsec_now - start_eating, info.time_to_die, SLEEP) == FUN_FAIL)
+		return (NULL);
+
 	//sleeping
 	//start_sleeping = ft_now_microsec();
 	//if (info.time_to_die - info.time_to_eat <= info.time_to_sleep)
@@ -276,22 +306,24 @@ void	*philo(void *input)
 	//thinking printing
 	//start_thinking = ft_now_microsec();
 	microsec_now = ft_now_microsec();
-	if (microsec_now - start_eating >= info.time_to_die)
-	{
+	//if (microsec_now - start_eating >= info.time_to_die)
+	//{
 		
-		*ph.count_eat = -1;
-		msg.msg = DIE_MSG;
-		ph.flag = &die;
-		msg.time = (microsec_now - *ph.start_time) / THOUSAND;
-		if (_msg_philo(&ph, &msg))
-			return (NULL);
-	}
-	else
-	{
-		msg.msg = THINK_MSG;
-		msg.time = (microsec_now - *ph.start_time) / THOUSAND;
-		if (_msg_philo(&ph, &msg))
-			return (NULL);
-	}
+	//	*ph.count_eat = -1;
+	//	msg.msg = DIE_MSG;
+	//	ph.flag = &die;
+	//	msg.time = (microsec_now - *ph.start_time) / THOUSAND;
+	//	if (_msg_philo(&ph, &msg))
+	//		return (NULL);
+	//}
+	//else
+	//{
+	//	msg.msg = THINK_MSG;
+	//	msg.time = (microsec_now - *ph.start_time) / THOUSAND;
+	//	if (_msg_philo(&ph, &msg))
+	//		return (NULL);
+	//}
+	if (check_status(&ph, microsec_now - start_eating, info.time_to_die, THINK) == FUN_FAIL)
+		return (NULL);
 	}
 }
