@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 10:57:48 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 12:59:31 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ void	*philo(void *input)
 		{
 			*ph.count_eat = -1; //adhoc, add flag require
 			msg.msg = DIE;
+			ph.flag = DIE;
 			msg.time = (microsec_now - *ph.start_time) / THOUSAND;
 			if (_msg_philo(ph.print, &msg))
 				return (NULL);
@@ -169,6 +170,7 @@ void	*philo(void *input)
 	{
 		*ph.count_eat = -1; //adhoc, add flag require
 		msg.msg = DIE;
+		ph.flag = DIE;
 		msg.time = (microsec_now - *ph.start_time) / THOUSAND;
 		if (_msg_philo(ph.print, &msg))
 			return (NULL);
@@ -195,7 +197,6 @@ void	*philo(void *input)
 		}
 		else
 			usleep(10);
-		//usleep(5);
 	}
 	//if (ph.ph_name % 2 == 0)
 	//{
@@ -223,6 +224,7 @@ void	*philo(void *input)
 	{
 		*ph.count_eat = -1;
 		msg.msg = DIE;
+		ph.flag = DIE;
 		msg.time = (microsec_now - *ph.start_time) / THOUSAND;
 		if (_msg_philo(ph.print, &msg))
 			return (NULL);
@@ -262,6 +264,7 @@ void	*philo(void *input)
 		
 		*ph.count_eat = -1;
 		msg.msg = DIE;
+		ph.flag = DIE;
 		msg.time = (microsec_now - *ph.start_time) / THOUSAND;
 		if (_msg_philo(ph.print, &msg))
 			return (NULL);
