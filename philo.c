@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 10:57:06 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 16:50:35 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	main(int argc, char **argv)
 	pthread_t		*th_name;
 	t_info			info;
 	t_thread		*ph;
+	int				flag;
 	long			*fork;
 	long			start_time;
 	int				err[5];
@@ -79,6 +80,7 @@ int	main(int argc, char **argv)
 	
 	//프로세싱
 	i = 0;
+	flag = 0;
 	pthread_mutex_init(&print, NULL);
 	pthread_mutex_init(&count_mutex, NULL);
 	fork_table = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * info.num_philo);
@@ -102,6 +104,7 @@ int	main(int argc, char **argv)
 		ph[i].right_f = &fork[(i + 1) % info.num_philo];
 		ph[i].count_eat = &count_eat;
 		ph[i].start_time = &start_time;
+		ph[i].flag = &flag;
 		i += 1;
 	}
 	i = 0;
@@ -111,19 +114,11 @@ int	main(int argc, char **argv)
 		pthread_create(&th_name[i], NULL, philo, (void *)(&ph[i]));
 		pthread_detach(th_name[i]);
 		//usleep(20);
-		i += 2;
-	}
-	i = 1;
-	while (i < info.num_philo)
-	{
-		pthread_create(&th_name[i], NULL, philo, (void *)(&ph[i]));
-		pthread_detach(th_name[i]);
-		//usleep(20);
-		i += 2;
+		i++;
 	}
 	while (1)
 	{
-		if (count_eat < 0) //종료 확인
+		if (flag == DIE) //종료 확인
 			break ;
 		usleep(5000);
 	}
