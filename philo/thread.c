@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 10:52:07 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 10:56:27 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,15 @@ void	*philo(void *input)
 			pthread_mutex_unlock(ph.left_fork);
 			pthread_mutex_unlock(ph.right_fork);
 		}
+		microsec_now = ft_now_microsec();
+		if (microsec_now - start_eating >= info.time_to_die)
+		{
+			*ph.count_eat = -1; //adhoc, add flag require
+			msg.msg = DIE;
+			msg.time = (microsec_now - *ph.start_time) / THOUSAND;
+			if (_msg_philo(ph.print, &msg))
+				return (NULL);
+		}
 		usleep(100);
 	}
 	pthread_mutex_unlock(ph.left_fork);
@@ -158,7 +167,7 @@ void	*philo(void *input)
 	microsec_now = ft_now_microsec();
 	if (microsec_now - start_eating >= info.time_to_die)
 	{
-		*ph.count_eat = -1;
+		*ph.count_eat = -1; //adhoc, add flag require
 		msg.msg = DIE;
 		msg.time = (microsec_now - *ph.start_time) / THOUSAND;
 		if (_msg_philo(ph.print, &msg))
