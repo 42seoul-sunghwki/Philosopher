@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 10:56:27 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 10:57:48 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	*philo(void *input)
 	msg.print = ph.print;
 	msg.ph = ph.ph_name;
 	//start_sleeping = 0;
-	start_eating = 0;
+	start_eating = ft_now_microsec();
 	//start_thinking = 0;
 	
 	//usleep(20 * (ph.info.num_philo - ph.ph_name));

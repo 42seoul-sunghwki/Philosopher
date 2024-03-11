@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 10:51:30 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 10:57:06 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,5 @@ int	main(int argc, char **argv)
 	free(fork_table);
 	free(th_name);
 	free(ph);
-	printf("start_time : %ld\n", start_time);
 	return (0);
 }
