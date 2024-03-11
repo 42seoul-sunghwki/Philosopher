@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:27 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/02/02 23:08:55 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 21:02:03 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,6 @@ int	ft_isdigit(int c)
 		return (1);
 	else
 		return (0);
-}
-
-int	ft_islong(const char *str)
-{
-	while (*str != '\0')
-	{
-		if (!ft_isdigit((int)*str))
-			return (1);
-		str++;
-	}
-	return (0);
 }
 
 int	ft_isspace(char s1)
@@ -62,8 +51,35 @@ long	ft_atol(const char *str)
 
 long	ft_now_microsec(void)
 {
-	struct timeval time;
+	struct timeval	time;
 
 	gettimeofday(&time, NULL);
 	return (time.tv_sec * THOUSAND * THOUSAND + time.tv_usec);
+}
+
+int	check_atol(const char *input, long *output)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (!ft_isdigit(input[i++]))
+		{
+			printf("NOT INTEGER!\n");
+			return (1);
+		}
+	}
+	*output = ft_atol(input);
+	if (*output < 0)
+	{
+		printf("NOT POSITIVE NUMBER!\n");
+		return (1);
+	}
+	if (*output > INT_MAX || i > 12)
+	{
+		printf("INVALID INT SIZE!\n");
+		return (1);
+	}
+	return (0);
 }

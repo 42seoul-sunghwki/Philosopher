@@ -29,11 +29,6 @@ int	_msg_philo(t_thread *ph, t_msg *msg)
 
 	ret = pthread_mutex_lock(ph->print);
 	die = DIE;
-	if (ph->info.num_must_eat && *(ph->count_eat) > ph->info.num_must_eat)
-	{
-		pthread_mutex_unlock(ph->print);
-		return (FUN_FAIL);
-	}
 	if (ret || *(ph->flag) == DIE)
 	{
 		printf("%ld %ld %s\n", msg->time, msg->ph, msg->msg);
@@ -89,17 +84,10 @@ int		check_status(t_thread *ph, long base_time, long cmp_time, int flag)
 void	*philo(void *input)
 {
 	t_thread	ph;
-	t_info		info;
-	t_msg		msg;
-	int			die;
 	long	microsec_now;
 	long	start_eating; //millisecond
 
 	ph = *(t_thread *)input;
-	info = ph.info;
-	die = DIE;
-	msg.print = ph.print;
-	msg.ph = ph.ph_name;
 	if (ph.ph_name % 2 == 0)
 		usleep(200);
 	start_eating = ft_now_microsec();
@@ -159,24 +147,23 @@ void	*philo(void *input)
 						pthread_mutex_unlock(ph.right_fork);
 					}
 				}
-				if (check_status(&ph, microsec_now - start_eating, info.time_to_die, NOT_CHECK) == FUN_FAIL)
+				if (check_status(&ph, microsec_now - start_eating, ph.info.time_to_die, NOT_CHECK) == FUN_FAIL)
 					return (NULL);
 				usleep(100);
 			}
 		}
-
 	start_eating = ft_now_microsec();
 	microsec_now = ft_now_microsec();
-	if (check_status(&ph, microsec_now - start_eating, info.time_to_die, EAT) == FUN_FAIL)
+	if (check_status(&ph, microsec_now - start_eating, ph.info.time_to_die, EAT) == FUN_FAIL)
 		return (NULL);
-	while (1)
+	while (1) //중복
 	{
 		microsec_now = ft_now_microsec();
-		if (microsec_now - start_eating >= info.time_to_eat || microsec_now - start_eating >= info.time_to_die)
+		if (microsec_now - start_eating >= ph.info.time_to_eat || microsec_now - start_eating >= ph.info.time_to_die)
 			break;
-		if (info.time_to_eat - (microsec_now - start_eating) >= THOUSAND)
+		if (ph.info.time_to_eat - (microsec_now - start_eating) >= THOUSAND)
 		{
-			usleep((info.time_to_eat - (microsec_now - start_eating)) / 2);
+			usleep((ph.info.time_to_eat - (microsec_now - start_eating)) / 2);
 		}
 		else
 			usleep(50);
@@ -187,22 +174,22 @@ void	*philo(void *input)
 	*ph.right_f = FALSE;
 	pthread_mutex_unlock(ph.left_fork);
 	pthread_mutex_unlock(ph.right_fork);
-	if (check_status(&ph, microsec_now - start_eating, info.time_to_die, SLEEP) == FUN_FAIL)
+	if (check_status(&ph, microsec_now - start_eating, ph.info.time_to_die, SLEEP) == FUN_FAIL)
 		return (NULL);
 	while (1)
 	{
 		microsec_now = ft_now_microsec();
-		if (microsec_now - start_eating >= info.time_to_sleep + info.time_to_eat || microsec_now - start_eating >= info.time_to_die)
+		if (microsec_now - start_eating >= ph.info.time_to_sleep + ph.info.time_to_eat || microsec_now - start_eating >= ph.info.time_to_die)
 			break;
-		if (info.time_to_sleep + info.time_to_eat - (microsec_now - start_eating) >= THOUSAND)
+		if (ph.info.time_to_sleep + ph.info.time_to_eat - (microsec_now - start_eating) >= THOUSAND)
 		{
-			usleep((info.time_to_sleep + info.time_to_eat - (microsec_now - start_eating)) / 2);
+			usleep((ph.info.time_to_sleep + ph.info.time_to_eat - (microsec_now - start_eating)) / 2);
 		}
 		else
-			usleep(10);
+			usleep(50);
 	}
 	microsec_now = ft_now_microsec();
-	if (check_status(&ph, microsec_now - start_eating, info.time_to_die, THINK) == FUN_FAIL)
+	if (check_status(&ph, microsec_now - start_eating, ph.info.time_to_die, THINK) == FUN_FAIL)
 		return (NULL);
 	}
 }

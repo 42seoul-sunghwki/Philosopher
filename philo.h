@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:27:26 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 19:35:04 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 20:00:37 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ typedef struct s_thread {
 	volatile int		*flag; //die flag를 설정해준다.
 } t_thread;
 
-int	ft_islong(const char *str);
 long	ft_atol(const char *str);
 long	ft_now_microsec(void);
+int	check_atol(const char *input, long *output);
 void	*philo(void *input);
 
 #endif
