@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 10:15:47 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 10:31:50 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,15 @@ void	*philo(void *input)
 
 	ph = *(t_thread *)input;
 	info = ph.info;
-	start_time = ft_now_microsec();
+	
 	msg.print = ph.print;
 	msg.ph = ph.ph_name;
 	//start_sleeping = 0;
 	start_eating = 0;
 	//start_thinking = 0;
 	
+	//usleep(20 * (ph.info.num_philo - ph.ph_name));
+	start_time = ft_now_microsec();
 	//eating
 	while (1)
 	{

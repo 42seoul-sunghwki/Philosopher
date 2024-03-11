@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 01:02:19 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 10:32:12 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,16 @@ int	main(int argc, char **argv)
 	{
 		pthread_create(&th_name[i], NULL, philo, (void *)(&ph[i]));
 		pthread_detach(th_name[i]);
-		i++;
+		//usleep(20);
+		i += 2;
+	}
+	i = 1;
+	while (i < info.num_philo)
+	{
+		pthread_create(&th_name[i], NULL, philo, (void *)(&ph[i]));
+		pthread_detach(th_name[i]);
+		//usleep(20);
+		i += 2;
 	}
 	while (1)
 	{
