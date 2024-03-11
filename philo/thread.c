@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 09:08:07 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 09:08:47 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,19 +180,26 @@ void	*philo(void *input)
 			break;
 		usleep(5);
 	}
-	if (ph.ph_name % 2 == 0)
-	{
-		*ph.left_f = FALSE;
-		*ph.right_f = FALSE;
-		pthread_mutex_unlock(ph.left_fork);
-		pthread_mutex_unlock(ph.right_fork);
-	}
-	else
-	{	*ph.left_f = FALSE;
-		*ph.right_f = FALSE;
-		pthread_mutex_unlock(ph.right_fork);
-		pthread_mutex_unlock(ph.left_fork);
-	}
+	//if (ph.ph_name % 2 == 0)
+	//{
+	//	*ph.left_f = FALSE;
+	//	*ph.right_f = FALSE;
+	//	pthread_mutex_unlock(ph.left_fork);
+	//	pthread_mutex_unlock(ph.right_fork);
+	//}
+	//else
+	//{	*ph.left_f = FALSE;
+	//	*ph.right_f = FALSE;
+	//	pthread_mutex_unlock(ph.right_fork);
+	//	pthread_mutex_unlock(ph.left_fork);
+	//}
+	pthread_mutex_lock(ph.left_fork);
+	pthread_mutex_lock(ph.right_fork);
+	*ph.left_f = FALSE;
+	*ph.right_f = FALSE;
+	pthread_mutex_unlock(ph.left_fork);
+	pthread_mutex_unlock(ph.right_fork);
+
 	//sleeping or dying printing
 	microsec_now = ft_now_microsec();
 	if (microsec_now - start_eating >= info.time_to_die)
