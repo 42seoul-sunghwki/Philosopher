@@ -29,17 +29,21 @@ int	_msg_philo(t_thread *ph, t_msg *msg)
 
 	ret = pthread_mutex_lock(ph->print);
 	die = DIE;
+	if (ph->info.num_must_eat && *(ph->count_eat) > ph->info.num_must_eat)
+	{
+		pthread_mutex_unlock(ph->print);
+		return (FUN_FAIL);
+	}
 	if (ret || *(ph->flag) == DIE)
 	{
-		printf("flag : %d\n", *(ph->flag));
 		printf("%ld %ld %s\n", msg->time, msg->ph, msg->msg);
 		pthread_mutex_unlock(ph->print);
 		return (FUN_FAIL);
 	}
 	if (msg->flag == EAT)
 	{
-		ph->count_eat++;
-		if (ph->how_many_eat && ph->count_eat >= ph->how_many_eat)
+		*(ph->count_eat) = *(ph->count_eat) + 1;
+		if (ph->info.num_must_eat && *(ph->count_eat) > ph->info.num_must_eat)
 		{
 			*(ph->flag) = die;
 			printf("%ld %ld %s\n", msg->time, msg->ph, msg->msg);

@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 19:29:22 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 19:37:53 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,12 +117,13 @@ int	main(int argc, char **argv)
 	}
 	while (1)
 	{
-		printf("parent flag: %d\n", flag);
-		printf("child flag : %d\n", *(ph[0].flag));
 		if (flag == DIE) //종료 확인
 			break ;
-		usleep(1000 * 1000);
+		usleep(1000);
 	}
+	pthread_mutex_lock(&print);
+	printf("Finish simulator\n");
+	pthread_mutex_unlock(&print);
 	//할당 해제
 	i = 0;
 	pthread_mutex_destroy(&print);

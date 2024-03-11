@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:27:26 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 19:24:48 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 19:35:04 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,8 @@ typedef struct s_thread {
 	long	*left_f;
 	long	*right_f;
 	long	ph_name;
-	long	*count_eat;
+	long	*count_eat; //얼마나 먹은지 체크
 	long	*start_time; //start time을 parent에서 정해준다.
-	long	*how_many_eat;
 	volatile int		*flag; //die flag를 설정해준다.
 } t_thread;
 
