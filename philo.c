@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 18:09:48 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 19:29:22 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int argc, char **argv)
 	pthread_t		*th_name;
 	t_info			info;
 	t_thread		*ph;
-	int				flag;
+	volatile int				flag;
 	long			*fork;
 	long			start_time;
 	int				err[5];
@@ -117,9 +117,11 @@ int	main(int argc, char **argv)
 	}
 	while (1)
 	{
+		printf("parent flag: %d\n", flag);
+		printf("child flag : %d\n", *(ph[0].flag));
 		if (flag == DIE) //종료 확인
 			break ;
-		usleep(5000);
+		usleep(1000 * 1000);
 	}
 	//할당 해제
 	i = 0;

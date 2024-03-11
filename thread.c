@@ -31,6 +31,8 @@ int	_msg_philo(t_thread *ph, t_msg *msg)
 	die = DIE;
 	if (ret || *(ph->flag) == DIE)
 	{
+		printf("flag : %d\n", *(ph->flag));
+		printf("%ld %ld %s\n", msg->time, msg->ph, msg->msg);
 		pthread_mutex_unlock(ph->print);
 		return (FUN_FAIL);
 	}
@@ -39,7 +41,8 @@ int	_msg_philo(t_thread *ph, t_msg *msg)
 		ph->count_eat++;
 		if (ph->how_many_eat && ph->count_eat >= ph->how_many_eat)
 		{
-			ph->flag = &die;
+			*(ph->flag) = die;
+			printf("%ld %ld %s\n", msg->time, msg->ph, msg->msg);
 			pthread_mutex_unlock(ph->print);
 			return (FUN_FAIL);
 		}
@@ -51,13 +54,14 @@ int	_msg_philo(t_thread *ph, t_msg *msg)
 
 int		check_status(t_thread *ph, long base_time, long cmp_time, int flag)
 {
-	//int		ret;
+	int		die;
 	t_msg	msg;
 
 	msg.flag = flag;
 	msg.ph = ph->ph_name;
 	msg.print = ph->print;
 	msg.time = (ft_now_microsec() - *(ph->start_time)) / THOUSAND;
+	die = DIE;
 	if (flag == SLEEP)
 		msg.msg = SLEEP_MSG;
 	else if (flag == EAT)
@@ -72,6 +76,7 @@ int		check_status(t_thread *ph, long base_time, long cmp_time, int flag)
 	else
 	{
 		msg.msg = DIE_MSG;
+		*(ph->flag) = DIE;
 		return (_msg_philo(ph, &msg));
 	}
 	return (FUN_SUC);
@@ -232,7 +237,7 @@ void	*philo(void *input)
 	while (1)
 	{
 		microsec_now = ft_now_microsec();
-		if (microsec_now - start_eating >= info.time_to_eat)
+		if (microsec_now - start_eating >= info.time_to_eat || microsec_now - start_eating >= info.time_to_die)
 			break;
 		if (info.time_to_eat - (microsec_now - start_eating) >= THOUSAND)
 		{
@@ -293,7 +298,7 @@ void	*philo(void *input)
 	while (1)
 	{
 		microsec_now = ft_now_microsec();
-		if (microsec_now - start_eating >= info.time_to_sleep + info.time_to_eat)
+		if (microsec_now - start_eating >= info.time_to_sleep + info.time_to_eat || microsec_now - start_eating >= info.time_to_die)
 			break;
 		if (info.time_to_sleep + info.time_to_eat - (microsec_now - start_eating) >= THOUSAND)
 		{
