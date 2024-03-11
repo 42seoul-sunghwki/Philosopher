@@ -6,13 +6,11 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 22:13:56 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/11 22:17:38 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-
 
 int	init_value(int argc, char **argv, t_info *info)
 {
@@ -82,32 +80,15 @@ int			init_static_value(t_thread *ph, int size)
 
 t_thread	*init_thread(int argc, char **argv)
 {
-	//pthread_mutex_t	*print;
-	//pthread_mutex_t	*count_mutex;
 	pthread_mutex_t	*fork_table;
 	t_thread		*ph;
 	t_info			info;
 	long			*fork;
-	//int				*flag;
-	//long			*start_time;
 	long			i;
-	//long			*count_eat;
 	
 	if (init_value(argc, argv, &info))
 		return (NULL);
-	
-	//프로세싱
 	i = 0;
-	//print = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
-	//count_mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
-	//start_time = (long *)malloc(sizeof(long));
-	//count_eat = (long *)malloc(sizeof(long));
-	//flag = (int *)malloc(sizeof(int));
-	//*count_eat = 0;
-	//*flag = 0;
-	//pthread_mutex_init(print, NULL);
-	//pthread_mutex_init(count_mutex, NULL);
-	
 	fork_table = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * info.num_philo);
 	while (i < info.num_philo)
 		pthread_mutex_init(&(fork_table[i++]), NULL);
@@ -116,21 +97,14 @@ t_thread	*init_thread(int argc, char **argv)
 	memset((void *)fork, 0, sizeof(long) * info.num_philo);
 	ph = (t_thread *)malloc((sizeof(t_thread) * info.num_philo));
 	init_static_value(ph, info.num_philo);
-
-	//start_time = ft_now_microsec();
 	while (i < info.num_philo)
 	{
-		//ph[i].print = print;
-		//ph[i].count_mutex = count_mutex;
 		ph[i].left_fork = &fork_table[i];
 		ph[i].right_fork = &fork_table[(i + 1) % info.num_philo];
 		ph[i].info = info;
 		ph[i].ph_name = i + 1;
 		ph[i].left_f = &fork[i];
 		ph[i].right_f = &fork[(i + 1) % info.num_philo];
-		//ph[i].count_eat = count_eat;
-		//ph[i].start_time = start_time;
-		//ph[i].flag = flag;
 		i += 1;
 	}
 	return (ph);
@@ -150,7 +124,7 @@ int	main(int argc, char **argv)
 	while (i < info.num_philo)
 	{
 		pthread_create(&th_name[i], NULL, philo, (void *)(&ph[i]));
-		pthread_detach(th_name[i]);
+		pthread_detach(th_name[i]); //refactoring to join
 		//usleep(20);
 		i++;
 	}
