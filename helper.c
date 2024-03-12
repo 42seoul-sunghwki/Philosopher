@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:27 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/12 15:36:08 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/12 21:45:37 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,10 @@ int	count_up(t_thread *ph)
 int	lock_fork(pthread_mutex_t *fork, long *flag, int fork_flag)
 {
 	int	ret;
+
+	printf("lock_fork\n");
+	printf("fork_flag : %d\n", fork_flag);
+	printf("flag : %ld\n", *flag);
 
 	ret = FUN_SUC;
 	ret = pthread_mutex_lock(fork);

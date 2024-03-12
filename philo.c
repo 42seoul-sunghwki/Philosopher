@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/12 17:04:29 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/12 21:46:07 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,10 +151,9 @@ int	main(int argc, char **argv)
 		usleep(1000);
 	}
 	i = 0;
-	printf("info.num_philo : %ld\n", info.num_philo);
 	while (i < info.num_philo)
 	{
-		printf("joined");
+		printf("th_name[%ld] : %p joined\n", i, th_name[i]);
 		pthread_join(*th_name[i], NULL); //왜 조인이 안되지
 		i++;
 	}

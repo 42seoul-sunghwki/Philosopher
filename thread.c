@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   thread.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/12 16:57:23 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/12 21:50:12 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@ int	check_status(t_thread *ph, long start_eating, int flag)
 	msg.ph = ph->ph_name;
 	msg.print = ph->print;
 	msg.time = (now - ph->start_time) / THOUSAND;
+	pthread_mutex_lock(ph->count_mutex);
+	if (*(ph->flag) == DIE)
+	{
+		pthread_mutex_unlock(ph->count_mutex);
+		return (FUN_FAIL);
+	}
+	pthread_mutex_unlock(ph->count_mutex);
 	if (flag == SLEEP)
 		msg.msg = SLEEP_MSG;
 	else if (flag == EAT)
@@ -31,8 +38,10 @@ int	check_status(t_thread *ph, long start_eating, int flag)
 		pthread_mutex_lock(ph->count_mutex);
 		if (ph->info.num_must_eat && *(ph->count_eat) >= ph->info.num_must_eat)
 		{
+			printf("count eat : %ld\n", *(ph->count_eat));
 			if (msg_philo(ph, &msg) == FUN_FAIL)
 			{
+				printf("philosopher %ld is full\n", ph->ph_name);
 				pthread_mutex_unlock(ph->count_mutex);
 				return (FUN_FAIL);
 			}
@@ -71,12 +80,12 @@ int	odd_philo(t_thread *ph, long start_eating)
 			if (*ph->right_f == FALSE)
 			{
 				lock_fork(ph->right_fork, ph->right_f, TRUE);
+				printf("philo %ld is eating - forked\n", ph->ph_name);
 				break ;
 			}
 			else
 				lock_fork(ph->left_fork, ph->left_f, FALSE);
 		}
-		printf("philo %ld is waiting\n", ph->ph_name);
 		if (check_status(ph, start_eating, NOT_CHECK) == FUN_FAIL)
 			return (FUN_FAIL);
 		usleep(100);
@@ -94,12 +103,12 @@ int	even_philo(t_thread *ph, long start_eating)
 			if (*ph->left_f == FALSE)
 			{
 				lock_fork(ph->left_fork, ph->left_f, TRUE);
+				printf("philo %ld is eating - forked\n", ph->ph_name);
 				break ;
 			}
 			else
 				lock_fork(ph->right_fork, ph->right_f, FALSE);
 		}
-		printf("philo %ld is waiting\n", ph->ph_name);
 		if (check_status(ph, start_eating, NOT_CHECK) == FUN_FAIL)
 			return (FUN_FAIL);
 		usleep(100);
@@ -141,7 +150,6 @@ int	eating_philo(t_thread *ph, long start_eating)
 
 void	*philo(void *input)
 {
-	return (NULL);
 	t_thread	ph;
 	long		start_eating;
 
@@ -153,24 +161,19 @@ void	*philo(void *input)
 	{
 		printf("start\n");
 		if (eating_philo(&ph, start_eating) == FUN_FAIL)
-			//return (NULL);
-			break;
+			return (NULL);
 		start_eating = ft_microsec_now();
 		if (check_status(&ph, start_eating, EAT) == FUN_FAIL)
-			//return (NULL);
-			break;
+			return (NULL);
 		sleep_philo(&ph, start_eating, ph.info.time_to_eat);
 		lock_fork(ph.left_fork, ph.left_f, FALSE);
 		lock_fork(ph.right_fork, ph.right_f, FALSE);
 		if (check_status(&ph, start_eating, SLEEP) == FUN_FAIL)
-			//return (NULL);
-			break;
+			return (NULL);
 		sleep_philo(&ph, start_eating, ph.info.time_to_sleep
 			+ ph.info.time_to_eat);
 		if (check_status(&ph, start_eating, THINK) == FUN_FAIL)
-			//return (NULL);
-			break;
+			return (NULL);
 	}
 	printf("end : %ld\n", ph.ph_name);
-	return (NULL);
 }
