@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/12 14:51:35 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/12 15:28:20 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,13 @@ int			init_static_value(t_thread *ph, int size)
 {
 	pthread_mutex_t	*print;
 	pthread_mutex_t	*count_mutex;
-	long			*start_time;
+	long			start_time;
 	long			*count_eat;
 	int				*flag;
 
 	print = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 	count_mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
-	start_time = (long *)malloc(sizeof(long));
-	*start_time = ft_microsec_now();
+	start_time = ft_microsec_now();
 	count_eat = (long *)malloc(sizeof(long));
 	flag = (int *)malloc(sizeof(int));
 	*count_eat = 0;
@@ -89,25 +88,42 @@ t_thread	*init_thread(int argc, char **argv)
 	if (init_value(argc, argv, &info))
 		return (NULL);
 	i = 0;
-	fork_table = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * info.num_philo);
-	while (i < info.num_philo)
-		pthread_mutex_init(&(fork_table[i++]), NULL);
-	i = 0;
-	fork = (long *)malloc(sizeof(long) * info.num_philo);
-	memset((void *)fork, 0, sizeof(long) * info.num_philo);
 	ph = (t_thread *)malloc((sizeof(t_thread) * info.num_philo));
 	init_static_value(ph, info.num_philo);
 	while (i < info.num_philo)
 	{
-		ph[i].left_fork = &fork_table[i];
-		ph[i].right_fork = &fork_table[(i + 1) % info.num_philo];
+		fork_table = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+		pthread_mutex_init(fork_table, NULL);
+		fork = (long *)malloc(sizeof(long));
+		*fork = 0;
+		ph[(i + 1) % info.num_philo].left_fork = fork_table;
+		ph[i].right_fork = fork_table;
 		ph[i].info = info;
 		ph[i].ph_name = i + 1;
-		ph[i].left_f = &fork[i];
-		ph[i].right_f = &fork[(i + 1) % info.num_philo];
+		ph[(i + 1) % info.num_philo].left_f = fork;
+		ph[i].right_f = fork;
 		i += 1;
 	}
 	return (ph);
+}
+
+void	free_thread(t_thread *ph)
+{
+	int	i;
+
+	i = ph[0].info.num_philo;
+	pthread_mutex_destroy(ph[0].print);
+	pthread_mutex_destroy(ph[0].count_mutex);
+	free(ph[0].print);
+	free(ph[0].count_mutex);
+	free(ph[0].count_eat);
+	free((void *)ph[0].flag);
+	while (--i >= 0)
+	{
+		pthread_mutex_destroy(ph[i].left_fork);
+		free(ph[i].left_fork);
+		free(ph[i].left_f);
+	}
 }
 
 int	main(int argc, char **argv)
@@ -124,7 +140,7 @@ int	main(int argc, char **argv)
 	while (i < info.num_philo)
 	{
 		pthread_create(&th_name[i], NULL, philo, (void *)(&ph[i]));
-		pthread_detach(th_name[i]); //refactoring to join
+		//pthread_detach(th_name[i]); //refactoring to join
 		i++;
 	}
 	while (1)
@@ -133,21 +149,8 @@ int	main(int argc, char **argv)
 			break ;
 		usleep(1000);
 	}
-	//pthread_mutex_lock(&print);
-	//printf("Finish simulator\n");
-	//pthread_mutex_unlock(&print);
-	////할당 해제
-	//i = 0;
-	//pthread_mutex_destroy(&print);
-	//pthread_mutex_destroy(&count_mutex);
-	//while (i < info.num_philo)
-	//{
-	//	pthread_mutex_destroy(&(fork_table[i]));
-	//	//pthread_join(th_name[i], NULL);
-	//	i++;
-	//}
-	//free(fork_table);
-	//free(th_name);
-	//free(ph);
+	free_thread(ph);
+	free(ph);
+	free(th_name);
 	return (0);
 }
