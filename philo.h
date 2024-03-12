@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:27:26 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 20:00:37 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/12 14:35:00 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,15 @@ typedef struct s_thread {
 	volatile int		*flag; //die flag를 설정해준다.
 } t_thread;
 
+/* ft_lib.c */
+size_t	ft_strlen(const char *s);
+int		ft_isdigit(int c);
+int		ft_isspace(char s1);
 long	ft_atol(const char *str);
-long	ft_now_microsec(void);
-int	check_atol(const char *input, long *output);
+long	ft_microsec_now(void);
+
+
+int		check_atol(const char *input, long *output);
 void	*philo(void *input);
 
 #endif

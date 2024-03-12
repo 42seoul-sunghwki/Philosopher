@@ -1,26 +1,17 @@
-	/* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   thread.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 19:10:17 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/12 14:34:41 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
 
 int	_msg_philo(t_thread *ph, t_msg *msg)
 {
@@ -51,14 +42,14 @@ int	_msg_philo(t_thread *ph, t_msg *msg)
 	return (ret);
 }
 
-int		check_status(t_thread *ph, long base_time, long cmp_time, int flag)
+int	check_status(t_thread *ph, long base_time, long cmp_time, int flag)
 {
 	t_msg	msg;
 
 	msg.flag = flag;
 	msg.ph = ph->ph_name;
 	msg.print = ph->print;
-	msg.time = (ft_now_microsec() - *(ph->start_time)) / THOUSAND;
+	msg.time = (ft_microsec_now() - *(ph->start_time)) / THOUSAND;
 	if (flag == SLEEP)
 		msg.msg = SLEEP_MSG;
 	else if (flag == EAT)
@@ -79,7 +70,7 @@ int		check_status(t_thread *ph, long base_time, long cmp_time, int flag)
 	return (FUN_SUC);
 }
 
-int		lock_fork(pthread_mutex_t *fork, long *flag, int fork_flag)
+int	lock_fork(pthread_mutex_t *fork, long *flag, int fork_flag)
 {
 	int	ret;
 
@@ -90,7 +81,7 @@ int		lock_fork(pthread_mutex_t *fork, long *flag, int fork_flag)
 	return (ret);
 }
 
-int		odd_philo(t_thread *ph, long start_eating)
+int	odd_philo(t_thread *ph, long start_eating)
 {
 	long	microsec_now;
 
@@ -107,8 +98,9 @@ int		odd_philo(t_thread *ph, long start_eating)
 			else
 				lock_fork(ph->left_fork, ph->left_f, FALSE);
 		}
-		microsec_now = ft_now_microsec();
-		if (check_status(ph, microsec_now - start_eating, ph->info.time_to_die, NOT_CHECK) == FUN_FAIL)
+		microsec_now = ft_microsec_now();
+		if (check_status(ph, microsec_now - start_eating,
+				ph->info.time_to_die, NOT_CHECK) == FUN_FAIL)
 			return (FUN_FAIL);
 		usleep(100);
 	}
@@ -132,26 +124,41 @@ int	even_philo(t_thread *ph, long start_eating)
 			else
 				lock_fork(ph->right_fork, ph->right_f, FALSE);
 		}
-		microsec_now = ft_now_microsec();
-		if (check_status(ph, microsec_now - start_eating, ph->info.time_to_die, NOT_CHECK) == FUN_FAIL)
+		microsec_now = ft_microsec_now();
+		if (check_status(ph, microsec_now - start_eating,
+				ph->info.time_to_die, NOT_CHECK) == FUN_FAIL)
 			return (FUN_FAIL);
 		usleep(100);
 	}
 	return (FUN_SUC);
 }
 
+void	sleep_philo(t_thread *ph, long start_eating, long cmp_time)
+{
+	long	microsec;
+
+	while (1)
+	{
+		microsec = ft_microsec_now() - start_eating;
+		if (microsec >= cmp_time || microsec >= ph->info.time_to_die || *(ph->flag) == DIE)
+			break ;
+		else if (cmp_time - microsec >= THOUSAND)
+			usleep(THOUSAND / 2);
+		else
+			usleep(100);
+	}
+}
+
 void	*philo(void *input)
 {
 	t_thread	ph;
-	long	microsec_now;
-	long	start_eating; //millisecond
+	long		microsec_now;
+	long		start_eating;
 
 	ph = *(t_thread *)input;
 	if (ph.ph_name % 2 == 0)
 		usleep(200);
-	start_eating = ft_now_microsec();
-
-	//start
+	start_eating = ft_microsec_now();
 	while (1)
 	{
 		if (ph.ph_name % 2 == 0)
@@ -164,40 +171,17 @@ void	*philo(void *input)
 			if (odd_philo(&ph, start_eating) == FUN_FAIL)
 				return (NULL);
 		}
-		start_eating = ft_now_microsec();
-		microsec_now = ft_now_microsec();
+		start_eating = ft_microsec_now();
+		microsec_now = ft_microsec_now();
 		if (check_status(&ph, microsec_now - start_eating, ph.info.time_to_die, EAT) == FUN_FAIL)
 			return (NULL);
-		while (1) //중복
-		{
-			microsec_now = ft_now_microsec();
-			if (microsec_now - start_eating >= ph.info.time_to_eat || microsec_now - start_eating >= ph.info.time_to_die || *(ph.flag) == DIE)
-				break;
-			if (ph.info.time_to_eat - (microsec_now - start_eating) >= THOUSAND)
-			{
-				usleep(THOUSAND);
-			}
-			else
-				usleep(100);
-		}
+		sleep_philo(&ph, start_eating, ph.info.time_to_eat);
 		lock_fork(ph.left_fork, ph.left_f, FALSE);
 		lock_fork(ph.right_fork, ph.right_f, FALSE);
 		if (check_status(&ph, microsec_now - start_eating, ph.info.time_to_die, SLEEP) == FUN_FAIL)
 			return (NULL);
-		while (1)
-		{
-			microsec_now = ft_now_microsec();
-			if (microsec_now - start_eating >= ph.info.time_to_sleep + ph.info.time_to_eat || microsec_now - start_eating >= ph.info.time_to_die || *(ph.flag) == DIE)
-				break;
-			if (ph.info.time_to_sleep + ph.info.time_to_eat - (microsec_now - start_eating) >= THOUSAND)
-			{
-				//usleep((ph.info.time_to_sleep + ph.info.time_to_eat - (microsec_now - start_eating)) / 2);
-				usleep(THOUSAND);
-			}
-			else
-				usleep(100);
-		}
-		microsec_now = ft_now_microsec();
+		sleep_philo(&ph, start_eating, ph.info.time_to_sleep + ph.info.time_to_eat);
+		microsec_now = ft_microsec_now();
 		if (check_status(&ph, microsec_now - start_eating, ph.info.time_to_die, THINK) == FUN_FAIL)
 			return (NULL);
 	}

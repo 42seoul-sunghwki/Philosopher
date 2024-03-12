@@ -6,7 +6,7 @@
 #    By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/01 15:09:29 by sunghwki          #+#    #+#              #
-#    Updated: 2024/03/09 20:57:50 by sunghwki         ###   ########.fr        #
+#    Updated: 2024/03/12 14:35:32 by sunghwki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,7 @@ CFLAGS = -Wall -Werror -Wextra
 
 CLINK = -lpthread
 
-SOURCE = helper.c \
-			philo.c \
-			thread.c
+SOURCE = helper.c thread.c ft_lib.c philo.c
 
 OBJECTS = $(SOURCE:.c=.o)
 

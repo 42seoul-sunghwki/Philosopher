@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/11 22:17:38 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/12 14:34:41 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int			init_static_value(t_thread *ph, int size)
 	print = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 	count_mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 	start_time = (long *)malloc(sizeof(long));
-	*start_time = ft_now_microsec();
+	*start_time = ft_microsec_now();
 	count_eat = (long *)malloc(sizeof(long));
 	flag = (int *)malloc(sizeof(int));
 	*count_eat = 0;
