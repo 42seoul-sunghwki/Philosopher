@@ -6,69 +6,130 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/12 14:34:41 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/12 14:53:53 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-
-int	_msg_philo(t_thread *ph, t_msg *msg)
+int	msg_philo(t_thread *ph, t_msg *msg)
 {
 	int	ret;
-	int	die;
 
 	ret = pthread_mutex_lock(ph->print);
-	die = DIE;
 	if (ret || *(ph->flag) == DIE)
-	{
-		printf("%ld %ld %s\n", msg->time, msg->ph, msg->msg);
-		pthread_mutex_unlock(ph->print);
-		return (FUN_FAIL);
-	}
-	if (msg->flag == EAT)
-	{
-		*(ph->count_eat) = *(ph->count_eat) + 1; //refactoring required
-		if (ph->info.num_must_eat && *(ph->count_eat) > ph->info.num_must_eat)
-		{
-			*(ph->flag) = die;
-			printf("%ld %ld %s\n", msg->time, msg->ph, msg->msg);
-			pthread_mutex_unlock(ph->print);
-			return (FUN_FAIL);
-		}
-	}
+		return (ret);
 	printf("%ld %ld %s\n", msg->time, msg->ph, msg->msg);
 	ret = pthread_mutex_unlock(ph->print);
 	return (ret);
 }
 
-int	check_status(t_thread *ph, long base_time, long cmp_time, int flag)
+int	count_up(t_thread *ph)
+{
+	int	ret;
+
+	ret = pthread_mutex_lock(ph->count_mutex);
+	if (ret)
+		return (ret);
+	*(ph->count_eat) = *(ph->count_eat) + 1;
+	ret = pthread_mutex_unlock(ph->count_mutex);
+	return (ret);
+}
+
+//int	_msg_philo(t_thread *ph, t_msg *msg)
+//{
+//	int	ret;
+
+//	ret = pthread_mutex_lock(ph->print);
+//	if (ret || *(ph->flag) == DIE)
+//	{
+//		printf("%ld %ld %s\n", msg->time, msg->ph, msg->msg);
+//		pthread_mutex_unlock(ph->print);
+//		return (FUN_FAIL);
+//	}
+//	if (msg->flag == EAT)
+//	{
+//		*(ph->count_eat) = *(ph->count_eat) + 1; //refactoring required
+//		if (ph->info.num_must_eat && *(ph->count_eat) > ph->info.num_must_eat)
+//		{
+//			*(ph->flag) = DIE;
+//			printf("%ld %ld %s\n", msg->time, msg->ph, msg->msg);
+//			pthread_mutex_unlock(ph->print);
+//			return (FUN_FAIL);
+//		}
+//	}
+//	printf("%ld %ld %s\n", msg->time, msg->ph, msg->msg);
+//	ret = pthread_mutex_unlock(ph->print);
+//	return (ret);
+//}
+
+int	check_status(t_thread *ph, long start_eating, int flag)
 {
 	t_msg	msg;
+	long	now;
 
+	now = ft_microsec_now();
 	msg.flag = flag;
 	msg.ph = ph->ph_name;
 	msg.print = ph->print;
-	msg.time = (ft_microsec_now() - *(ph->start_time)) / THOUSAND;
+	msg.time = (now - *(ph->start_time)) / THOUSAND;
 	if (flag == SLEEP)
 		msg.msg = SLEEP_MSG;
 	else if (flag == EAT)
+	{
 		msg.msg = EAT_MSG;
+		count_up(ph);
+		pthread_mutex_lock(ph->count_mutex);
+		if (ph->info.num_must_eat && *(ph->count_eat) > ph->info.num_must_eat)
+			*(ph->flag) = DIE;
+		pthread_mutex_unlock(ph->count_mutex);
+	}
 	else if (flag == THINK)
 		msg.msg = THINK_MSG;
-	if (base_time <= cmp_time)
+	if (now - start_eating <= ph->info.time_to_die)
 	{
 		if (flag != NOT_CHECK)
-			return (_msg_philo(ph, &msg));
+			return (msg_philo(ph, &msg));
 	}
 	else
 	{
 		msg.msg = DIE_MSG;
+		
+		msg_philo(ph, &msg);
 		*(ph->flag) = DIE;
-		return (_msg_philo(ph, &msg));
+		return (FUN_FAIL);
 	}
 	return (FUN_SUC);
+
 }
+
+//int	check_status(t_thread *ph, long base_time, long cmp_time, int flag)
+//{
+//	t_msg	msg;
+
+//	msg.flag = flag;
+//	msg.ph = ph->ph_name;
+//	msg.print = ph->print;
+//	msg.time = (ft_microsec_now() - *(ph->start_time)) / THOUSAND;
+//	if (flag == SLEEP)
+//		msg.msg = SLEEP_MSG;
+//	else if (flag == EAT)
+//		msg.msg = EAT_MSG;
+//	else if (flag == THINK)
+//		msg.msg = THINK_MSG;
+//	if (base_time <= cmp_time)
+//	{
+//		if (flag != NOT_CHECK)
+//			return (_msg_philo(ph, &msg));
+//	}
+//	else
+//	{
+//		msg.msg = DIE_MSG;
+//		*(ph->flag) = DIE;
+//		return (_msg_philo(ph, &msg));
+//	}
+//	return (FUN_SUC);
+//}
 
 int	lock_fork(pthread_mutex_t *fork, long *flag, int fork_flag)
 {
@@ -83,8 +144,6 @@ int	lock_fork(pthread_mutex_t *fork, long *flag, int fork_flag)
 
 int	odd_philo(t_thread *ph, long start_eating)
 {
-	long	microsec_now;
-
 	while (1)
 	{
 		if (*ph->left_f == FALSE)
@@ -98,9 +157,7 @@ int	odd_philo(t_thread *ph, long start_eating)
 			else
 				lock_fork(ph->left_fork, ph->left_f, FALSE);
 		}
-		microsec_now = ft_microsec_now();
-		if (check_status(ph, microsec_now - start_eating,
-				ph->info.time_to_die, NOT_CHECK) == FUN_FAIL)
+		if (check_status(ph, start_eating, NOT_CHECK) == FUN_FAIL)
 			return (FUN_FAIL);
 		usleep(100);
 	}
@@ -109,8 +166,6 @@ int	odd_philo(t_thread *ph, long start_eating)
 
 int	even_philo(t_thread *ph, long start_eating)
 {
-	long	microsec_now;
-
 	while (1)
 	{
 		if (*ph->right_f == FALSE)
@@ -124,9 +179,7 @@ int	even_philo(t_thread *ph, long start_eating)
 			else
 				lock_fork(ph->right_fork, ph->right_f, FALSE);
 		}
-		microsec_now = ft_microsec_now();
-		if (check_status(ph, microsec_now - start_eating,
-				ph->info.time_to_die, NOT_CHECK) == FUN_FAIL)
+		if (check_status(ph, start_eating, NOT_CHECK) == FUN_FAIL)
 			return (FUN_FAIL);
 		usleep(100);
 	}
@@ -152,7 +205,6 @@ void	sleep_philo(t_thread *ph, long start_eating, long cmp_time)
 void	*philo(void *input)
 {
 	t_thread	ph;
-	long		microsec_now;
 	long		start_eating;
 
 	ph = *(t_thread *)input;
@@ -172,17 +224,15 @@ void	*philo(void *input)
 				return (NULL);
 		}
 		start_eating = ft_microsec_now();
-		microsec_now = ft_microsec_now();
-		if (check_status(&ph, microsec_now - start_eating, ph.info.time_to_die, EAT) == FUN_FAIL)
+		if (check_status(&ph, start_eating, EAT) == FUN_FAIL)
 			return (NULL);
 		sleep_philo(&ph, start_eating, ph.info.time_to_eat);
 		lock_fork(ph.left_fork, ph.left_f, FALSE);
 		lock_fork(ph.right_fork, ph.right_f, FALSE);
-		if (check_status(&ph, microsec_now - start_eating, ph.info.time_to_die, SLEEP) == FUN_FAIL)
+		if (check_status(&ph, start_eating, SLEEP) == FUN_FAIL)
 			return (NULL);
 		sleep_philo(&ph, start_eating, ph.info.time_to_sleep + ph.info.time_to_eat);
-		microsec_now = ft_microsec_now();
-		if (check_status(&ph, microsec_now - start_eating, ph.info.time_to_die, THINK) == FUN_FAIL)
+		if (check_status(&ph,start_eating, THINK) == FUN_FAIL)
 			return (NULL);
 	}
 }

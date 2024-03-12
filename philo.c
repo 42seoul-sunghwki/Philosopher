@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/12 14:34:41 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/12 14:51:35 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,6 @@ int	main(int argc, char **argv)
 	{
 		pthread_create(&th_name[i], NULL, philo, (void *)(&ph[i]));
 		pthread_detach(th_name[i]); //refactoring to join
-		//usleep(20);
 		i++;
 	}
 	while (1)
