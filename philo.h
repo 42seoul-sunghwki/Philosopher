@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:27:26 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/12 15:56:06 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/12 23:11:25 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,18 +74,26 @@ typedef struct s_thread {
 }	t_thread;
 
 /* ft_lib.c */
-size_t	ft_strlen(const char *s);
-int		ft_isdigit(int c);
-int		ft_isspace(char s1);
-long	ft_atol(const char *str);
-long	ft_microsec_now(void);
+size_t		ft_strlen(const char *s);
+int			ft_isdigit(int c);
+int			ft_isspace(char s1);
+long		ft_atol(const char *str);
+long		ft_microsec_now(void);
+
+/* init.c */
+int			init_value(int argc, char **argv, t_info *info);
+int			init_static_value(t_thread *ph, int size);
+t_thread	*init_thread(int argc, char **argv);
 
 /* helper.c */
-int		msg_philo(t_thread *ph, t_msg *msg);
-int		count_up(t_thread *ph);
-int		lock_fork(pthread_mutex_t *fork, long *flag, int fork_flag);
-int		check_atol(const char *input, long *output);
+int			msg_philo(t_thread *ph, t_msg *msg);
+int			count_up(t_thread *ph);
+int			lock_fork(pthread_mutex_t *fork, long *flag, int fork_flag);
+int			check_atol(const char *input, long *output);
 
-void	*philo(void *input);
+/* thread_helper.c */
+int			check_status(t_thread *ph, long start_eating, int flag);
+
+void		*philo(void *input);
 
 #endif
