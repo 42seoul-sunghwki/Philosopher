@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/12 15:54:19 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/12 16:57:23 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	odd_philo(t_thread *ph, long start_eating)
 			else
 				lock_fork(ph->left_fork, ph->left_f, FALSE);
 		}
+		printf("philo %ld is waiting\n", ph->ph_name);
 		if (check_status(ph, start_eating, NOT_CHECK) == FUN_FAIL)
 			return (FUN_FAIL);
 		usleep(100);
@@ -98,6 +99,7 @@ int	even_philo(t_thread *ph, long start_eating)
 			else
 				lock_fork(ph->right_fork, ph->right_f, FALSE);
 		}
+		printf("philo %ld is waiting\n", ph->ph_name);
 		if (check_status(ph, start_eating, NOT_CHECK) == FUN_FAIL)
 			return (FUN_FAIL);
 		usleep(100);
@@ -139,6 +141,7 @@ int	eating_philo(t_thread *ph, long start_eating)
 
 void	*philo(void *input)
 {
+	return (NULL);
 	t_thread	ph;
 	long		start_eating;
 
@@ -148,19 +151,26 @@ void	*philo(void *input)
 	start_eating = ft_microsec_now();
 	while (1)
 	{
+		printf("start\n");
 		if (eating_philo(&ph, start_eating) == FUN_FAIL)
-			return (NULL);
+			//return (NULL);
+			break;
 		start_eating = ft_microsec_now();
 		if (check_status(&ph, start_eating, EAT) == FUN_FAIL)
-			return (NULL);
+			//return (NULL);
+			break;
 		sleep_philo(&ph, start_eating, ph.info.time_to_eat);
 		lock_fork(ph.left_fork, ph.left_f, FALSE);
 		lock_fork(ph.right_fork, ph.right_f, FALSE);
 		if (check_status(&ph, start_eating, SLEEP) == FUN_FAIL)
-			return (NULL);
+			//return (NULL);
+			break;
 		sleep_philo(&ph, start_eating, ph.info.time_to_sleep
 			+ ph.info.time_to_eat);
 		if (check_status(&ph, start_eating, THINK) == FUN_FAIL)
-			return (NULL);
+			//return (NULL);
+			break;
 	}
+	printf("end : %ld\n", ph.ph_name);
+	return (NULL);
 }

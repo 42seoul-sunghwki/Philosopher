@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/12 15:55:10 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/12 17:04:29 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,20 +128,22 @@ void	free_thread(t_thread *ph)
 
 int	main(int argc, char **argv)
 {
-	pthread_t		*th_name;
+	pthread_t		**th_name;
 	t_thread		*ph;
 	t_info			info;
 	long			i;
 
 	ph = init_thread(argc, argv);
 	info = ph[0].info;
-	th_name = (pthread_t *)malloc(sizeof(pthread_t) * info.num_philo);
+	th_name = (pthread_t **)malloc(sizeof(pthread_t *) * info.num_philo);
 	i = 0;
 	while (i < info.num_philo)
 	{
-		pthread_create(&th_name[i], NULL, philo, (void *)(&ph[i]));
+		th_name[i] = (pthread_t *)malloc(sizeof(pthread_t));
+		pthread_create(th_name[i], NULL, philo, (void *)(&ph[i]));
 		i++;
 	}
+	printf("th_name: %p\n", th_name);
 	while (1)
 	{
 		if (*(ph[0].flag) == DIE)
@@ -153,7 +155,7 @@ int	main(int argc, char **argv)
 	while (i < info.num_philo)
 	{
 		printf("joined");
-		pthread_join(th_name[i], NULL); //왜 조인이 안되지
+		pthread_join(*th_name[i], NULL); //왜 조인이 안되지
 		i++;
 	}
 	free_thread(ph);
