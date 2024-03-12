@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/12 15:08:26 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/12 15:54:19 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,14 @@ int	check_status(t_thread *ph, long start_eating, int flag)
 		pthread_mutex_lock(ph->count_mutex);
 		if (ph->info.num_must_eat && *(ph->count_eat) >= ph->info.num_must_eat)
 		{
-			msg_philo(ph, &msg);
+			if (msg_philo(ph, &msg) == FUN_FAIL)
+			{
+				pthread_mutex_unlock(ph->count_mutex);
+				return (FUN_FAIL);
+			}
 			*(ph->flag) = DIE;
 			pthread_mutex_unlock(ph->count_mutex);
+			printf("philosopher %ld is full\n", ph->ph_name);
 			return (FUN_FAIL);
 		}
 		pthread_mutex_unlock(ph->count_mutex);
@@ -48,7 +53,8 @@ int	check_status(t_thread *ph, long start_eating, int flag)
 	else
 	{
 		msg.msg = DIE_MSG;
-		msg_philo(ph, &msg);
+		if (msg_philo(ph, &msg) == FUN_FAIL)
+			return (FUN_FAIL);
 		*(ph->flag) = DIE;
 		return (FUN_FAIL);
 	}

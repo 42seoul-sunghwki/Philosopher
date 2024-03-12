@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:27 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/12 14:56:20 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/12 15:36:08 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	msg_philo(t_thread *ph, t_msg *msg)
 
 	ret = pthread_mutex_lock(ph->print);
 	if (ret || *(ph->flag) == DIE)
-		return (ret);
+		return (FUN_FAIL);
 	printf("%ld %ld %s\n", msg->time, msg->ph, msg->msg);
 	ret = pthread_mutex_unlock(ph->print);
 	return (ret);

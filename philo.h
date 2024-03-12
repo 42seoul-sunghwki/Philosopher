@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:27:26 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/12 15:14:05 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/12 15:56:06 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_info {
 	long	time_to_eat;
 	long	time_to_sleep;
 	long	num_must_eat;
-} t_info;
+}	t_info;
 
 typedef struct s_msg {
 	pthread_mutex_t	*print;
@@ -57,21 +57,21 @@ typedef struct s_msg {
 	long			ph;
 	long			flag;
 	char			*msg;
-} t_msg;
+}	t_msg;
 
 typedef struct s_thread {
-	pthread_mutex_t	*print; //st
-	pthread_mutex_t	*count_mutex; //st
+	pthread_mutex_t	*print;
+	pthread_mutex_t	*count_mutex;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
-	t_info	info;
-	long	*left_f;
-	long	*right_f;
-	long	ph_name;
-	long	*count_eat; //st
-	long	start_time; //start time을 parent에서 정해준다.
-	volatile int		*flag; //st
-} t_thread;
+	t_info			info;
+	long			*left_f;
+	long			*right_f;
+	long			ph_name;
+	long			*count_eat;
+	long			start_time;
+	volatile int	*flag;
+}	t_thread;
 
 /* ft_lib.c */
 size_t	ft_strlen(const char *s);

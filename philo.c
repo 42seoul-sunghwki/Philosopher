@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/12 15:28:20 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/12 15:55:10 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	init_value(int argc, char **argv, t_info *info)
 	return (FUN_SUC);
 }
 
-int			init_static_value(t_thread *ph, int size)
+int	init_static_value(t_thread *ph, int size)
 {
 	pthread_mutex_t	*print;
 	pthread_mutex_t	*count_mutex;
@@ -84,7 +84,7 @@ t_thread	*init_thread(int argc, char **argv)
 	t_info			info;
 	long			*fork;
 	long			i;
-	
+
 	if (init_value(argc, argv, &info))
 		return (NULL);
 	i = 0;
@@ -140,14 +140,21 @@ int	main(int argc, char **argv)
 	while (i < info.num_philo)
 	{
 		pthread_create(&th_name[i], NULL, philo, (void *)(&ph[i]));
-		//pthread_detach(th_name[i]); //refactoring to join
 		i++;
 	}
 	while (1)
 	{
-		if (*(ph[0].flag) == DIE) //종료 확인
+		if (*(ph[0].flag) == DIE)
 			break ;
 		usleep(1000);
+	}
+	i = 0;
+	printf("info.num_philo : %ld\n", info.num_philo);
+	while (i < info.num_philo)
+	{
+		printf("joined");
+		pthread_join(th_name[i], NULL); //왜 조인이 안되지
+		i++;
 	}
 	free_thread(ph);
 	free(ph);
