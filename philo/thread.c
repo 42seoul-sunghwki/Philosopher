@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/12 23:10:25 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/19 22:08:01 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	odd_philo(t_thread *ph, long start_eating)
 			lock_fork(ph->left_fork, ph->left_f, TRUE);
 			if (*ph->right_f == FALSE)
 			{
-				lock_fork(ph->right_fork, ph->right_f, TRUE);
+				lock_fork(ph->right_fork, ph->right_f, TRUE); //add msg get fork require
 				break ;
 			}
 			else
