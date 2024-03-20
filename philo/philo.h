@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:27:26 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/12 23:11:25 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/20 16:48:55 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@
 # define EAT		2
 # define THINK		3
 # define DIE		4
+# define TAKE		5
+# define UNTAKE		6
 
 # define SLEEP_MSG	"is sleeping"
 # define EAT_MSG	"is eating"
@@ -78,7 +80,7 @@ size_t		ft_strlen(const char *s);
 int			ft_isdigit(int c);
 int			ft_isspace(char s1);
 long		ft_atol(const char *str);
-long		ft_microsec_now(void);
+long		ft_usec_now(void);
 
 /* init.c */
 int			init_value(int argc, char **argv, t_info *info);

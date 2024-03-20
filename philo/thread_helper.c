@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 23:10:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/19 19:20:50 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/20 16:48:55 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,10 @@ static int	flag_check_status(t_thread *ph, t_msg *msg, int flag, long long now)
 	}
 	else if (flag == THINK)
 		msg->msg = THINK_MSG;
+	else if (flag == TAKE)
+		msg->msg = TAKE_MSG;
+	else if (flag == UNTAKE)
+		msg->msg = UNTAKE_MSG;
 	return (FUN_SUC);
 }
 
@@ -67,7 +71,7 @@ int	check_status(t_thread *ph, long start_eating, int flag)
 	t_msg	msg;
 	long	now;
 
-	now = ft_microsec_now();
+	now = ft_usec_now();
 	if (check_die(ph) == FUN_FAIL)
 		return (FUN_FAIL);
 	if (flag_check_status(ph, &msg, flag, now) == FUN_FAIL)

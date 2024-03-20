@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/19 22:08:01 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/20 16:48:55 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ int	odd_philo(t_thread *ph, long start_eating)
 			lock_fork(ph->left_fork, ph->left_f, TRUE);
 			if (*ph->right_f == FALSE)
 			{
-				lock_fork(ph->right_fork, ph->right_f, TRUE); //add msg get fork require
+				lock_fork(ph->right_fork, ph->right_f, TRUE);
+				if (check_status(ph, start_eating, TAKE) == FUN_FAIL)
+					return (FUN_FAIL);
+				if (check_status(ph, start_eating, TAKE) == FUN_FAIL)
+					return (FUN_FAIL);
 				break ;
 			}
 			else
@@ -44,6 +48,10 @@ int	even_philo(t_thread *ph, long start_eating)
 			if (*ph->left_f == FALSE)
 			{
 				lock_fork(ph->left_fork, ph->left_f, TRUE);
+				if (check_status(ph, start_eating, TAKE) == FUN_FAIL)
+					return (FUN_FAIL);
+				if (check_status(ph, start_eating, TAKE) == FUN_FAIL)
+					return (FUN_FAIL);
 				break ;
 			}
 			else
@@ -58,15 +66,15 @@ int	even_philo(t_thread *ph, long start_eating)
 
 void	sleep_philo(t_thread *ph, long start_eating, long cmp_time)
 {
-	long	microsec;
+	long	usec;
 
 	while (1)
 	{
-		microsec = ft_microsec_now() - start_eating;
-		if (microsec >= cmp_time || microsec >= ph->info.time_to_die
+		usec = ft_usec_now() - start_eating;
+		if (usec >= cmp_time || usec >= ph->info.time_to_die
 			|| *(ph->flag) == DIE)
 			break ;
-		else if (cmp_time - microsec >= THOUSAND)
+		else if (cmp_time - usec >= THOUSAND)
 			usleep(THOUSAND / 2);
 		else
 			usleep(100);
@@ -96,12 +104,12 @@ void	*philo(void *input)
 	ph = *(t_thread *)input;
 	if (ph.ph_name % 2 == 0)
 		usleep(200);
-	start_eating = ft_microsec_now();
+	start_eating = ft_usec_now();
 	while (1)
 	{
 		if (eating_philo(&ph, start_eating) == FUN_FAIL)
 			return (NULL);
-		start_eating = ft_microsec_now();
+		start_eating = ft_usec_now();
 		if (check_status(&ph, start_eating, EAT) == FUN_FAIL)
 			return (NULL);
 		sleep_philo(&ph, start_eating, ph.info.time_to_eat);
