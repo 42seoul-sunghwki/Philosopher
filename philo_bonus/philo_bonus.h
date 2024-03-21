@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 22:04:39 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 11:39:29 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 14:58:04 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ count : count value semaphore
 die   : die binary semaphore
 */
 typedef struct s_sem {
+	sem_t	*pick;
 	sem_t	*fork;
 	sem_t	*print;
 	sem_t	*count;

@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:38:21 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 09:06:19 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 15:14:52 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,9 @@ t_sem	*ft_init_sem(t_info *info)
 	sem = (t_sem *)malloc(sizeof(t_sem));
 	if (!sem)
 		return (NULL);
+	sem_unlink(FORK);
+	sem_unlink(PRINT);
+	sem_unlink(DIE);
 	sem->fork = sem_open(FORK, O_CREAT, 0644, info->philo_num);
 	sem->print = sem_open(PRINT, O_CREAT, 0644, 1);
 	sem->die = sem_open(DIE, O_CREAT, 0644, 1);
