@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:27:26 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 20:19:15 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 21:00:15 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_thread {
 	long			ph_name;
 	long			*count_eat;
 	long			start_time;
+	long			how_many_eat;
 	volatile int	*flag;
 }	t_thread;
 
