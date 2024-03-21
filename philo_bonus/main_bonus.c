@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 22:04:32 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 15:23:43 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 19:22:14 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,17 @@ void	start_simulation(t_info *info, t_sem *sem)
 	if (!pid)
 		return ;
 	num = 0;
+	info->start_time = ft_usec_now();
 	while (num < info->philo_num)
 	{
+		printf("parent time : %ld\n", (ft_usec_now() - info->start_time) / THOUSAND);
 		info->name = num + 1;
 		pid[num] = fork();
 		if (pid[num] == 0)
 		{
+			printf("time : %ld\n", (ft_usec_now() - info->start_time) / THOUSAND);
 			philo(info, sem);
-			exit (FUN_SUC);
+			exit (0);
 		}
 		num++;
 	}

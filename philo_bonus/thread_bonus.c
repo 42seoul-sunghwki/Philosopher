@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   thread_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 15:29:21 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 15:22:48 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 17:44:25 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ void	print_msg(t_philo *ph, long usec, int flag)
 	long	msec;
 	
 	sem_wait(ph->sem->print);
-	sem_wait(ph->sem->die);
-	sem_post(ph->sem->die);
 	msec = usec / THOUSAND;
 	if (flag == SLEEP)
 		printf("%ld %ld is sleeping\n", msec, ph->info->name);
@@ -33,7 +31,7 @@ void	print_msg(t_philo *ph, long usec, int flag)
 	else if (flag == DIED)
 	{
 		printf("%ld %ld died\n", msec, ph->info->name);
-		sem_wait(ph->sem->die);
+		return ;
 	}
 	sem_post(ph->sem->print);
 }
@@ -52,13 +50,3 @@ void	*th_eating(void *in)
 		sem_wait(ph->sem->count);
 	return (NULL);
 }
-
-//void	*th_sleeping(void *in)
-//{
-	
-//}
-
-//void	*th_thinking(void *in)
-//{
-	
-//}

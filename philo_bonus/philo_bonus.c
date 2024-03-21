@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:25:16 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 15:22:08 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 17:46:18 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	eating_philo(t_philo *ph, long *start_usec)
 			print_msg(ph, now_usec - ph->info->start_time, DIED);
 			return (FUN_FAIL);
 		}
-		usleep(100);
+		usleep(500);
 	}
 }
 
@@ -55,7 +55,6 @@ static int	sleeping_philo(t_philo *ph, long *start_usec)
 {
 	long	now_usec;
 
-	now_usec = ft_usec_now();
 	while (TRUE)
 	{
 		now_usec = ft_usec_now();
@@ -68,7 +67,7 @@ static int	sleeping_philo(t_philo *ph, long *start_usec)
 		{
 			return (FUN_SUC);
 		}
-		usleep(100);
+		usleep(500);
 	}
 }
 
@@ -82,14 +81,16 @@ int	philo(t_info *info, t_sem *sem)
 	ph.info = info;
 	ph.sem = sem;
 	ph.flag = &flag;
+	
 	start_usec = ft_usec_now();
+	printf("start time : %ld, philo num : %ld\n", (start_usec - info->start_time), info->name);
 	while (TRUE)
 	{
 		if (eating_philo(&ph, &start_usec) == FUN_FAIL)
 			exit (FUN_FAIL);
-		if (thinking_philo(&ph) == FUN_FAIL)
-			exit (FUN_FAIL);
 		if (sleeping_philo(&ph, &start_usec) == FUN_FAIL)
+			exit (FUN_FAIL);
+		if (thinking_philo(&ph) == FUN_FAIL)
 			exit (FUN_FAIL);
 	}
 	exit (FUN_SUC);

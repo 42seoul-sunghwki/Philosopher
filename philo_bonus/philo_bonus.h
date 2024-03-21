@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 22:04:39 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 14:58:04 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 17:34:59 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 # define PRINT		"print"
 # define COUNT		"count"
 # define DIE		"die"
+# define PICK		"pick"
 
 # define NOT_CHECK	0
 # define SLEEP		1
@@ -72,7 +73,7 @@ typedef struct s_sem {
 	sem_t	*fork;
 	sem_t	*print;
 	sem_t	*count;
-	sem_t	*die;
+	//sem_t	*die;
 }		t_sem;
 
 /***** t_philo *****
@@ -102,7 +103,5 @@ int			philo(t_info *info, t_sem *sem);
 /* thread_bonus.c */
 void		print_msg(t_philo *ph, long usec, int flag);
 void		*th_eating(void *in);
-void		*th_sleeping(void *in);
-void		*th_thinking(void *in);
 
 #endif
