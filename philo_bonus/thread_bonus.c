@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 15:29:21 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 15:12:44 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 15:22:48 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,8 @@ void	print_msg(t_philo *ph, long usec, int flag)
 	long	msec;
 	
 	sem_wait(ph->sem->print);
-	printf("before die semaphore\n");
 	sem_wait(ph->sem->die);
 	sem_post(ph->sem->die);
-	printf("after die semaphore\n");
 	msec = usec / THOUSAND;
 	if (flag == SLEEP)
 		printf("%ld %ld is sleeping\n", msec, ph->info->name);
@@ -45,9 +43,7 @@ void	*th_eating(void *in)
 	t_philo	*ph;
 
 	ph = (t_philo *)in;
-	printf("before wating\n");
 	sem_wait(ph->sem->fork);
-	printf("after waiting\n");
 	print_msg(ph, ft_usec_now() - ph->info->start_time, TAKE);
 	sem_wait(ph->sem->fork);
 	print_msg(ph, ft_usec_now() - ph->info->start_time, TAKE);

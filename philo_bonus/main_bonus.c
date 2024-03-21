@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 22:04:32 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 15:01:09 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 15:23:43 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	start_simulation(t_info *info, t_sem *sem)
 			philo(info, sem);
 			exit (FUN_SUC);
 		}
-		usleep(1000);
 		num++;
 	}
 	if (waitpid(-1, NULL, 0))

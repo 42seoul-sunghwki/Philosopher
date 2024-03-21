@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:25:16 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 15:07:08 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 15:22:08 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,9 @@ static int	eating_philo(t_philo *ph, long *start_usec)
 
 	pthread_create(&pid, NULL, th_eating, (void *)ph);
 	pthread_detach(pid);
-	//printf("after pthread\n");
 	while (TRUE)
 	{
-		//printf("busy lock\n");
 		now_usec = ft_usec_now();
-		//printf("now time : %ld \n", (now_usec - *start_usec) / THOUSAND);
 		if (*(ph->flag) == EAT)
 		{
 			print_msg(ph, now_usec - ph->info->start_time, EAT);
