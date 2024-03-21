@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 20:28:08 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 21:50:04 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ void	free_thread(t_thread *ph)
 	i = ph[0].info.num_philo;
 	pthread_mutex_destroy(ph[0].print);
 	pthread_mutex_destroy(ph[0].count_mutex);
+	pthread_mutex_destroy(ph[0].flag_mutex);
 	free(ph[0].print);
 	free(ph[0].count_mutex);
+	free(ph[0].flag_mutex);
 	free(ph[0].count_eat);
 	free((void *)ph[0].flag);
 	while (--i >= 0)
