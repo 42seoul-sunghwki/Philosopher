@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 22:04:39 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/20 16:55:40 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 11:39:29 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <semaphore.h>
+# include <signal.h>
 
 # define INT_MAX	2147483647
 # define INT_MIN	-2147483648
@@ -33,12 +34,13 @@
 # define FORK		"fork"
 # define PRINT		"print"
 # define COUNT		"count"
+# define DIE		"die"
 
 # define NOT_CHECK	0
 # define SLEEP		1
 # define EAT		2
 # define THINK		3
-# define DIE		4
+# define DIED		4
 # define TAKE		5
 # define UNTAKE		6
 
@@ -51,6 +53,7 @@
 
 typedef struct s_info {
 	long	philo_num;
+	long	name;
 	long	time_to_die;
 	long	time_to_eat;
 	long	time_to_sleep;

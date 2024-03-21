@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   thread_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 15:29:21 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/20 16:58:34 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 11:41:23 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,25 @@
 
 void	print_msg(t_philo *ph, long usec, int flag)
 {
+	long	msec;
+	
 	sem_wait(ph->sem->print);
 	sem_wait(ph->sem->die);
 	sem_post(ph->sem->die);
+	msec = usec / THOUSAND;
 	if (flag == SLEEP)
-		printf("%lld %d is sleeping\n", usec, ph->info->philo_num);
+		printf("%ld %ld is sleeping\n", msec, ph->info->name);
 	else if (flag == EAT)
-		printf("%lld %d is eating\n", usec, ph->info->philo_num);
+		printf("%ld %ld is eating\n", msec, ph->info->name);
 	else if (flag == THINK)
-		printf("%lld %d is thinking\n", usec, ph->info->philo_num);
+		printf("%ld %ld is thinking\n", msec, ph->info->name);
 	else if (flag == TAKE)
-		printf("%lld %d has taken a fork\n", usec, ph->info->philo_num);
+		printf("%ld %ld has taken a fork\n", msec, ph->info->name);
 	else if (flag == UNTAKE)
-		printf("%lld %d has untaken a fork\n", usec, ph->info->philo_num);
-	else if (flag == DIE)
+		printf("%ld %ld has untaken a fork\n", msec, ph->info->name);
+	else if (flag == DIED)
 	{
-		printf("%lld %d died\n", usec, ph->info->philo_num);
+		printf("%ld %ld died\n", msec, ph->info->name);
 		sem_wait(ph->sem->die);
 	}
 	sem_post(ph->sem->print);
@@ -37,7 +40,15 @@ void	print_msg(t_philo *ph, long usec, int flag)
 
 void	*th_eating(void *in)
 {
-	
+	t_philo	*ph;
+
+	ph = (t_philo *)in;
+	sem_wait(ph->sem->fork);
+	print_msg(ph, ft_usec_now() - ph->info->start_time, TAKE);
+	sem_wait(ph->sem->fork);
+	print_msg(ph, ft_usec_now() - ph->info->start_time, TAKE);
+	*(ph->flag) = EAT;
+	return (NULL);
 }
 
 //void	*th_sleeping(void *in)

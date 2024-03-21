@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   thread.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/20 16:48:55 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 09:05:00 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	sleep_philo(t_thread *ph, long start_eating, long cmp_time)
 	{
 		usec = ft_usec_now() - start_eating;
 		if (usec >= cmp_time || usec >= ph->info.time_to_die
-			|| *(ph->flag) == DIE)
+			|| *(ph->flag) == DIED)
 			break ;
 		else if (cmp_time - usec >= THOUSAND)
 			usleep(THOUSAND / 2);
