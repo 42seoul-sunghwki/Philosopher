@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 22:04:39 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 17:34:59 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 19:38:06 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <sys/time.h>
 # include <semaphore.h>
 # include <signal.h>
+# include <fcntl.h>
 
 # define INT_MAX	2147483647
 # define INT_MIN	-2147483648
