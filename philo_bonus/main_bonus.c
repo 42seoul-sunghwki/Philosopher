@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 22:04:32 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 11:41:00 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 11:42:08 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,11 @@ void	start_simulation(t_info *info, t_sem *sem)
 	}
 	if (waitpid(-1, NULL, 0))
 	{
-		printf("kill all\n"); //temporal
+		printf("kill all\n");
 		while (--(info->philo_num))
 		{
 			kill(pid[info->philo_num], SIGKILL);
 		}
-		//kill(-1, SIGKILL);
 		free(pid);
 	}
 }

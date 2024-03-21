@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:25:16 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 11:31:43 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 11:44:19 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	philo(t_info *info, t_sem *sem)
 	ph.sem = sem;
 	ph.flag = &flag;
 	start_usec = ft_usec_now();
+	printf("start philo_num : %ld", info->name);
 	while (TRUE)
 	{
 		if (eating_philo(&ph, &start_usec) == FUN_FAIL)

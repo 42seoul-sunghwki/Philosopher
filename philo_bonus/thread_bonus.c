@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 15:29:21 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 11:41:23 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 11:43:15 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	*th_eating(void *in)
 	sem_wait(ph->sem->fork);
 	print_msg(ph, ft_usec_now() - ph->info->start_time, TAKE);
 	*(ph->flag) = EAT;
+	if (ph->info->num_must_eat != -1)
+		sem_wait(ph->sem->count);
 	return (NULL);
 }
 
