@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 21:58:36 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/20 16:48:55 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 20:25:18 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ int	init_static_value(t_thread *ph, int size)
 t_thread	*init_thread(int argc, char **argv)
 {
 	pthread_mutex_t	*fork_table;
+	pthread_mutex_t	*flag_mutex;
 	t_thread		*ph;
 	t_info			info;
 	long			i;
@@ -108,12 +109,15 @@ t_thread	*init_thread(int argc, char **argv)
 	if (init_value(argc, argv, &info))
 		return (NULL);
 	i = 0;
+	flag_mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init(flag_mutex, NULL);
 	ph = (t_thread *)malloc((sizeof(t_thread) * info.num_philo));
 	init_static_value(ph, info.num_philo);
 	while (i < info.num_philo)
 	{
 		fork_table = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 		pthread_mutex_init(fork_table, NULL);
+		ph[i].flag_mutex = flag_mutex;
 		ph[i].right_fork = fork_table;
 		ph[(i + 1) % info.num_philo].left_fork = fork_table;
 		ph[i].info = info;

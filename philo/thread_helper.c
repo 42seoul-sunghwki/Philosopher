@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 23:10:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/20 16:48:55 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 20:42:21 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ static int	flag_eat_status(t_thread *ph, t_msg *msg)
 			pthread_mutex_unlock(ph->count_mutex);
 			return (FUN_FAIL);
 		}
+		pthread_mutex_lock(ph->flag_mutex);
 		*(ph->flag) = DIE;
+		pthread_mutex_unlock(ph->flag_mutex);
 		pthread_mutex_unlock(ph->count_mutex);
 		return (FUN_FAIL);
 	}
@@ -57,11 +59,14 @@ static int	flag_check_status(t_thread *ph, t_msg *msg, int flag, long long now)
 static int	check_die(t_thread *ph)
 {
 	pthread_mutex_lock(ph->count_mutex);
+	pthread_mutex_lock(ph->flag_mutex);
 	if (*(ph->flag) == DIE)
 	{
+		pthread_mutex_unlock(ph->flag_mutex);
 		pthread_mutex_unlock(ph->count_mutex);
 		return (FUN_FAIL);
 	}
+	pthread_mutex_unlock(ph->flag_mutex);
 	pthread_mutex_unlock(ph->count_mutex);
 	return (FUN_SUC);
 }
@@ -85,7 +90,9 @@ int	check_status(t_thread *ph, long start_eating, int flag)
 	{
 		msg.msg = DIE_MSG;
 		msg_philo(ph, &msg);
+		pthread_mutex_lock(ph->flag_mutex);
 		*(ph->flag) = DIE;
+		pthread_mutex_unlock(ph->flag_mutex);
 		return (FUN_FAIL);
 	}
 	return (FUN_SUC);

@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:27:26 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/20 16:48:55 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 20:19:15 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_thread {
 	pthread_mutex_t	*count_mutex;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
+	pthread_mutex_t	*flag_mutex;
 	t_info			info;
 	long			*left_f;
 	long			*right_f;

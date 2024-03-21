@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/12 22:47:57 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 20:28:08 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,8 @@ void	thread_create(t_thread *ph, pthread_t **th_name)
 	{
 		th_name[i] = (pthread_t *)malloc(sizeof(pthread_t));
 		pthread_create(th_name[i], NULL, philo, (void *)(&ph[i]));
-		i++;
-	}
-	while (1)
-	{
-		if (*(ph[0].flag) == DIE)
-			break ;
 		usleep(1000);
+		i++;
 	}
 	i = 0;
 	while (i < ph[0].info.num_philo)

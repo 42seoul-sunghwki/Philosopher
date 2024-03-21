@@ -6,7 +6,7 @@
 #    By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/01 15:09:29 by sunghwki          #+#    #+#              #
-#    Updated: 2024/03/12 23:11:15 by sunghwki         ###   ########.fr        #
+#    Updated: 2024/03/21 20:06:21 by sunghwki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -fsanitize=thread -g
 
 CLINK = -lpthread
 
