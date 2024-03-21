@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 23:10:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 21:12:07 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 21:24:11 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,27 @@
 static int	flag_eat_status(t_thread *ph, t_msg *msg)
 {
 	msg->msg = EAT_MSG;
-	count_up(ph);
-	//pthread_mutex_lock(ph->count_mutex);
-	//if (ph->info.num_must_eat && *(ph->count_eat) >= ph->info.num_must_eat)
-	//{
-	//	if (msg_philo(ph, msg) == FUN_FAIL)
-	//	{
-	//		pthread_mutex_unlock(ph->count_mutex);
-	//		return (FUN_FAIL);
-	//	}
-	//	pthread_mutex_lock(ph->flag_mutex);
-	//	*(ph->flag) = DIE;
-	//	pthread_mutex_unlock(ph->flag_mutex);
-	//	pthread_mutex_unlock(ph->count_mutex);
-	//	return (FUN_FAIL);
-	//}
-	//pthread_mutex_unlock(ph->count_mutex);
+	ph->how_many_eat++;
+	if (ph->info.num_must_eat && ph->how_many_eat == ph->info.num_must_eat)
+	{
+		pthread_mutex_lock(ph->count_mutex);
+		*(ph->count_eat) = *(ph->count_eat) + 1;
+		pthread_mutex_unlock(ph->count_mutex);
+	}
+	return (FUN_SUC);
+}
+
+static int	flag_think_status(t_thread *ph, t_msg *msg)
+{
+	pthread_mutex_lock(ph->count_mutex);
+	if (ph->info.num_must_eat > 0 && ph->info.num_must_eat == ph->how_many_eat)
+	{
+		pthread_mutex_unlock(ph->count_mutex);
+		return (FUN_FAIL);
+	}
+	else
+		pthread_mutex_unlock(ph->count_mutex);
+	msg->msg = THINK_MSG;
 	return (FUN_SUC);
 }
 
@@ -49,16 +54,8 @@ static int	flag_check_status(t_thread *ph, t_msg *msg, int flag, long long now)
 	}
 	else if (flag == THINK)
 	{
-		printf("how_many_eat: %ld\n", ph->how_many_eat);
-		pthread_mutex_lock(ph->count_mutex);
-		if (ph->info.num_must_eat > 0 && ph->info.num_must_eat == ph->how_many_eat)
-		{
-			pthread_mutex_unlock(ph->count_mutex);
+		if (flag_think_status(ph, msg) == FUN_FAIL)
 			return (FUN_FAIL);
-		}
-		else
-			pthread_mutex_unlock(ph->count_mutex);
-		msg->msg = THINK_MSG;
 	}
 	else if (flag == TAKE)
 		msg->msg = TAKE_MSG;

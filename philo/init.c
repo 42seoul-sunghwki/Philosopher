@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 21:58:36 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 21:17:44 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 21:30:39 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int	init_static_value(t_thread *ph, int size)
 		ph[size].start_time = start_time;
 		ph[size].count_eat = count_eat;
 		ph[size].flag = flag;
+		ph[size].how_many_eat = 0;
 	}
 	return (TRUE);
 }
@@ -125,7 +126,6 @@ t_thread	*init_thread(int argc, char **argv)
 		ph[i].right_f = (long *)malloc(sizeof(long));
 		ph[(i + 1) % info.num_philo].left_f = ph[i].right_f;
 		*(ph[i].right_f) = 0;
-		ph[i].how_many_eat = 0;
 		i += 1;
 	}
 	return (ph);

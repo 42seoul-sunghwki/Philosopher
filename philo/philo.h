@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:27:26 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 21:00:15 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 21:21:29 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ t_thread	*init_thread(int argc, char **argv);
 
 /* helper.c */
 int			msg_philo(t_thread *ph, t_msg *msg);
-int			count_up(t_thread *ph);
 int			lock_fork(pthread_mutex_t *fork, long *flag, int fork_flag);
 int			check_atol(const char *input, long *output);
 

@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:27 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 21:13:22 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/21 21:21:26 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,6 @@ int	msg_philo(t_thread *ph, t_msg *msg)
 	printf("%ld %ld %s\n", msg->time, msg->ph, msg->msg);
 	ret = pthread_mutex_unlock(ph->print);
 	return (ret);
-}
-
-int	count_up(t_thread *ph)
-{
-	ph->how_many_eat++;
-	if (ph->info.num_must_eat && ph->how_many_eat == ph->info.num_must_eat)
-	{
-		pthread_mutex_lock(ph->count_mutex);
-		*(ph->count_eat) = *(ph->count_eat) + 1;
-		pthread_mutex_unlock(ph->count_mutex);
-	}
-	return (FUN_SUC);
 }
 
 int	lock_fork(pthread_mutex_t *fork, long *flag, int fork_flag)
