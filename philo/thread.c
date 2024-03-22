@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/22 19:15:53 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 20:15:47 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	sleep_philo(t_thread *ph, long start_eating, long cmp_time)
 
 	while (1)
 	{
-		usec = ft_usec_now() - start_eating;
 		pthread_mutex_lock(ph->flag_mutex);
 		if (*(ph->flag) == DIE)
 		{
@@ -27,10 +26,11 @@ void	sleep_philo(t_thread *ph, long start_eating, long cmp_time)
 		}
 		else
 			pthread_mutex_unlock(ph->flag_mutex);
+		usec = ft_usec_now() - start_eating;
 		if (usec >= cmp_time || usec >= ph->info.time_to_die)
 			return ;
-		if (cmp_time - usec >= THOUSAND)
-			usleep(THOUSAND / 2);
+		if (cmp_time - usec > THOUSAND)
+			usleep(800);
 		else
 			usleep(100);
 	}
@@ -48,7 +48,7 @@ int	eating_philo(t_thread *ph, long start_eating)
 			pthread_mutex_lock(ph->right_fork);
 			if (*ph->right_f)
 			{
-				*ph->left_f = ~(*ph->left_f);
+				*ph->right_f = ~(*ph->right_f);
 				pthread_mutex_unlock(ph->right_fork);
 				if (check_status(ph, start_eating, TAKE) == FUN_FAIL)
 					return (FUN_FAIL);
@@ -82,8 +82,9 @@ void	*philo(void *input)
 	while (1)
 	{
 		start_eating = ft_usec_now();
-		if (start_eating > ph.start_time)
+		if (start_eating >= ph.start_time)
 			break ;
+		usleep(5);
 	}
 	while (1)
 	{

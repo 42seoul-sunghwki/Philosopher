@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 23:10:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/22 17:34:27 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 20:13:40 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,24 +80,24 @@ static int	check_die(t_thread *ph)
 int	check_status(t_thread *ph, long start_eating, int flag)
 {
 	t_msg	msg;
-	long	now;
 
-	now = ft_usec_now();
 	if (check_die(ph) == FUN_FAIL)
 		return (FUN_FAIL);
-	if (flag_check_status(ph, &msg, flag) == FUN_FAIL) // error
+	if (flag_check_status(ph, &msg, flag) == FUN_FAIL)
 		return (FUN_FAIL);
-	if (now - start_eating <= ph->info.time_to_die)
+	if (ft_usec_now() - start_eating <= ph->info.time_to_die)
 	{
 		if (flag != NOT_CHECK)
 			return (msg_philo(ph, &msg));
 	}
 	else
 	{
-		msg.msg = DIE_MSG;
-		msg_philo(ph, &msg);
 		pthread_mutex_lock(ph->flag_mutex);
-		*(ph->flag) = DIE;
+		if (*(ph->flag) != DIE)
+		{
+			*(ph->flag) = DIE;
+			printf("%ld %ld %s\n", (ft_usec_now() - ph->start_time) / THOUSAND, ph->ph_name, DIE_MSG);
+		}
 		pthread_mutex_unlock(ph->flag_mutex);
 		return (FUN_FAIL);
 	}
