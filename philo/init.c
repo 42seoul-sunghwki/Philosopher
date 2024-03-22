@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 21:58:36 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/22 16:37:22 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 19:33:00 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,11 @@ int	init_static_value(t_thread *ph, int size)
 {
 	pthread_mutex_t	*print;
 	pthread_mutex_t	*count_mutex;
-	long			start_time;
 	long			*count_eat;
 	int				*flag;
 
 	print = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 	count_mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
-	start_time = ft_usec_now();
 	count_eat = (long *)malloc(sizeof(long));
 	flag = (int *)malloc(sizeof(int));
 	*count_eat = 0;
@@ -91,7 +89,6 @@ int	init_static_value(t_thread *ph, int size)
 	{
 		ph[size].print = print;
 		ph[size].count_mutex = count_mutex;
-		ph[size].start_time = start_time;
 		ph[size].count_eat = count_eat;
 		ph[size].flag = flag;
 		ph[size].how_many_eat = 0;

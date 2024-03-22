@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:27 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/22 17:23:00 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 18:58:50 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ int	lock_fork(pthread_mutex_t *fork, long *flag, int fork_flag)
 	int	ret;
 
 	ret = FUN_SUC;
+	(void)fork_flag;
 	ret = pthread_mutex_lock(fork);
-	*flag = fork_flag;
+	*flag = ~(*flag);
 	ret = pthread_mutex_unlock(fork);
 	return (ret);
 }

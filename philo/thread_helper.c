@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 23:10:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/22 17:23:38 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 17:34:27 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,22 @@ static int	flag_eat_status(t_thread *ph, t_msg *msg)
 
 static int	flag_think_status(t_thread *ph, t_msg *msg)
 {
-	pthread_mutex_lock(ph->count_mutex);
 	if (ph->info.num_must_eat > 0 && ph->info.num_must_eat == ph->how_many_eat)
 	{
-		pthread_mutex_unlock(ph->count_mutex);
 		return (FUN_FAIL);
 	}
 	else
-		pthread_mutex_unlock(ph->count_mutex);
-	msg->msg = THINK_MSG;
-	return (FUN_SUC);
+	{
+		msg->msg = THINK_MSG;
+		return (FUN_SUC);
+	}
 }
 
-static int	flag_check_status(t_thread *ph, t_msg *msg, int flag, long long now)
+static int	flag_check_status(t_thread *ph, t_msg *msg, int flag)
 {
 	msg->flag = flag;
 	msg->ph = ph->ph_name;
 	msg->print = ph->print;
-	msg->time = (now - ph->start_time) / THOUSAND;
 	if (flag == SLEEP)
 		msg->msg = SLEEP_MSG;
 	else if (flag == EAT)
@@ -87,7 +85,7 @@ int	check_status(t_thread *ph, long start_eating, int flag)
 	now = ft_usec_now();
 	if (check_die(ph) == FUN_FAIL)
 		return (FUN_FAIL);
-	if (flag_check_status(ph, &msg, flag, now) == FUN_FAIL) // error
+	if (flag_check_status(ph, &msg, flag) == FUN_FAIL) // error
 		return (FUN_FAIL);
 	if (now - start_eating <= ph->info.time_to_die)
 	{
