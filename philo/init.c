@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 21:58:36 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/22 20:48:25 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 21:34:07 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	init_check_value(int argc, char **argv, t_info *info)
 {
 	if (!(argc == 5 || argc == 6))
 	{
-		printf("Invalid Input Size");
+		printf("INVALID ARGUMENT NUMBER!\n");
 		return (FUN_FAIL);
 	}
 	if (check_atol(argv[1], &(info->num_philo)))
