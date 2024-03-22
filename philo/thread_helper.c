@@ -6,14 +6,15 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 23:10:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/22 21:09:54 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 21:26:30 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	flag_think_status(t_thread *ph, t_msg *msg)
+static int	flag_sleep_status(t_thread *ph, t_msg *msg)
 {
+	msg->msg = SLEEP_MSG;
 	if (ph->info.num_must_eat > 0 && ph->info.num_must_eat == ph->how_many_eat)
 	{
 		pthread_mutex_lock(ph->count_mutex);
@@ -25,13 +26,8 @@ static int	flag_think_status(t_thread *ph, t_msg *msg)
 			pthread_mutex_unlock(ph->flag_mutex);
 		}
 		pthread_mutex_unlock(ph->count_mutex);
-		return (FUN_FAIL);
 	}
-	else
-	{
-		msg->msg = THINK_MSG;
-		return (FUN_SUC);
-	}
+	return (FUN_SUC);
 }
 
 static int	flag_check_status(t_thread *ph, t_msg *msg, int flag)
@@ -39,16 +35,16 @@ static int	flag_check_status(t_thread *ph, t_msg *msg, int flag)
 	msg->flag = flag;
 	msg->ph = ph->ph_name;
 	msg->print = ph->print;
-	if (flag == SLEEP)
-		msg->msg = SLEEP_MSG;
+	if (flag == THINK)
+		msg->msg = THINK_MSG;
 	else if (flag == EAT)
 	{
 		msg->msg = EAT_MSG;
 		ph->how_many_eat++;
 	}
-	else if (flag == THINK)
+	else if (flag == SLEEP)
 	{
-		if (flag_think_status(ph, msg) == FUN_FAIL)
+		if (flag_sleep_status(ph, msg) == FUN_FAIL)
 			return (FUN_FAIL);
 	}
 	else if (flag == TAKE)
