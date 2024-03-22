@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:27:26 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/22 21:01:55 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 21:55:03 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <unistd.h>
 # include <pthread.h>
 # include <stdlib.h>
-# include <string.h>
 # include <sys/time.h>
 
 # define INT_MAX	2147483647
