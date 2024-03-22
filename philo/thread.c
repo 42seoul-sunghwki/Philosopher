@@ -6,105 +6,11 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 21:30:00 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 16:49:13 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-static int	odd_philo_right_fork(t_thread *ph, long start_eating)
-{
-	pthread_mutex_lock(ph->right_fork);
-	if (*ph->right_f == FALSE)
-	{
-		pthread_mutex_unlock(ph->right_fork);
-		lock_fork(ph->right_fork, ph->right_f, TRUE);
-		if (check_status(ph, start_eating, TAKE) == FUN_FAIL)
-			return (FUN_FAIL);
-		if (check_status(ph, start_eating, TAKE) == FUN_FAIL)
-			return (FUN_FAIL);
-		return (-1);
-	}
-	else
-	{
-		pthread_mutex_unlock(ph->right_fork);
-		lock_fork(ph->left_fork, ph->left_f, FALSE);
-		return (FUN_SUC);
-	}
-}
-
-int	odd_philo(t_thread *ph, long start_eating)
-{
-	int	ret;
-
-	while (1)
-	{
-		pthread_mutex_lock(ph->left_fork);
-		if (*ph->left_f == FALSE)
-		{
-			pthread_mutex_unlock(ph->left_fork);
-			lock_fork(ph->left_fork, ph->left_f, TRUE);
-			ret = odd_philo_right_fork(ph, start_eating);
-			if (ret == FUN_FAIL)
-				return (FUN_FAIL);
-			else if (ret == -1)
-				break ;
-		}
-		else
-			pthread_mutex_unlock(ph->left_fork);
-		if (check_status(ph, start_eating, NOT_CHECK) == FUN_FAIL)
-			return (FUN_FAIL);
-		usleep(100);
-	}
-	return (FUN_SUC);
-}
-
-static int	even_philo_left_fork(t_thread *ph, long start_eating)
-{
-	pthread_mutex_lock(ph->left_fork);
-	if (*ph->left_f == FALSE)
-	{
-		pthread_mutex_unlock(ph->left_fork);
-		lock_fork(ph->left_fork, ph->left_f, TRUE);
-		if (check_status(ph, start_eating, TAKE) == FUN_FAIL)
-			return (FUN_FAIL);
-		if (check_status(ph, start_eating, TAKE) == FUN_FAIL)
-			return (FUN_FAIL);
-		return (-1);
-	}
-	else
-	{
-		pthread_mutex_unlock(ph->left_fork);
-		lock_fork(ph->right_fork, ph->right_f, FALSE);
-		return (FUN_SUC);
-	}
-}
-
-int	even_philo(t_thread *ph, long start_eating)
-{
-	int	ret;
-
-	while (1)
-	{
-		pthread_mutex_lock(ph->right_fork);
-		if (*ph->right_f == FALSE)
-		{
-			pthread_mutex_unlock(ph->right_fork);
-			lock_fork(ph->right_fork, ph->right_f, TRUE);
-			ret = even_philo_left_fork(ph, start_eating);
-			if (ret == FUN_FAIL)
-				return (FUN_FAIL);
-			else if (ret == -1)
-				break ;
-		}
-		else
-			pthread_mutex_unlock(ph->right_fork);
-		if (check_status(ph, start_eating, NOT_CHECK) == FUN_FAIL)
-			return (FUN_FAIL);
-		usleep(100);
-	}
-	return (FUN_SUC);
-}
 
 void	sleep_philo(t_thread *ph, long start_eating, long cmp_time)
 {
@@ -119,7 +25,8 @@ void	sleep_philo(t_thread *ph, long start_eating, long cmp_time)
 			pthread_mutex_unlock(ph->flag_mutex);
 			return ;
 		}
-		pthread_mutex_unlock(ph->flag_mutex);
+		else
+			pthread_mutex_unlock(ph->flag_mutex);
 		if (usec >= cmp_time || usec >= ph->info.time_to_die)
 			return ;
 		if (cmp_time - usec >= THOUSAND)

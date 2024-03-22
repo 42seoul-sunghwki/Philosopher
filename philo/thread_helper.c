@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 23:10:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 21:24:11 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 16:48:48 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,12 @@ static int	check_die(t_thread *ph)
 		pthread_mutex_unlock(ph->count_mutex);
 		return (FUN_FAIL);
 	}
-	pthread_mutex_unlock(ph->flag_mutex);
-	pthread_mutex_unlock(ph->count_mutex);
-	return (FUN_SUC);
+	else
+	{
+		pthread_mutex_unlock(ph->flag_mutex);
+		pthread_mutex_unlock(ph->count_mutex);
+		return (FUN_SUC);
+	}
 }
 
 int	check_status(t_thread *ph, long start_eating, int flag)

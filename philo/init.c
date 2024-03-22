@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 21:58:36 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 21:30:39 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 16:37:22 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	init_check_value(int argc, char **argv, t_info *info)
 	return (FUN_SUC);
 }
 
-int	init_value_thousand(char *argv, long *value, int mul)
+static int	init_value_thousand(char *argv, long *value, int mul)
 {
 	if (check_atol(argv, value))
 		return (FUN_FAIL);
@@ -99,34 +99,22 @@ int	init_static_value(t_thread *ph, int size)
 	return (TRUE);
 }
 
-t_thread	*init_thread(int argc, char **argv)
+int	init_mutex_thread(t_thread *ph, int size)
 {
 	pthread_mutex_t	*fork_table;
 	pthread_mutex_t	*flag_mutex;
-	t_thread		*ph;
-	t_info			info;
-	long			i;
+	int				tmp;
 
-	if (init_value(argc, argv, &info))
-		return (NULL);
-	i = 0;
 	flag_mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 	pthread_mutex_init(flag_mutex, NULL);
-	ph = (t_thread *)malloc((sizeof(t_thread) * info.num_philo));
-	init_static_value(ph, info.num_philo);
-	while (i < info.num_philo)
+	tmp = size;
+	while (--size >= 0)
 	{
 		fork_table = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 		pthread_mutex_init(fork_table, NULL);
-		ph[i].flag_mutex = flag_mutex;
-		ph[i].right_fork = fork_table;
-		ph[(i + 1) % info.num_philo].left_fork = fork_table;
-		ph[i].info = info;
-		ph[i].ph_name = i + 1;
-		ph[i].right_f = (long *)malloc(sizeof(long));
-		ph[(i + 1) % info.num_philo].left_f = ph[i].right_f;
-		*(ph[i].right_f) = 0;
-		i += 1;
+		ph[size].flag_mutex = flag_mutex;
+		ph[size].right_fork = fork_table;
+		ph[(size + 1) % tmp].left_fork = fork_table;
 	}
-	return (ph);
+	return (TRUE);
 }

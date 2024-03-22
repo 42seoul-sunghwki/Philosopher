@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:27:26 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 21:21:29 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 16:46:17 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ long		ft_usec_now(void);
 /* init.c */
 int			init_value(int argc, char **argv, t_info *info);
 int			init_static_value(t_thread *ph, int size);
-t_thread	*init_thread(int argc, char **argv);
+int			init_mutex_thread(t_thread *ph, int size);
 
 /* helper.c */
 int			msg_philo(t_thread *ph, t_msg *msg);
@@ -96,7 +96,10 @@ int			check_atol(const char *input, long *output);
 
 /* thread_helper.c */
 int			check_status(t_thread *ph, long start_eating, int flag);
-
 void		*philo(void *input);
+
+/* thread_status.c */
+int			even_philo(t_thread *ph, long start_eating);
+int			odd_philo(t_thread *ph, long start_eating);
 
 #endif

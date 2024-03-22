@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 21:50:04 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 16:37:05 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,30 @@ void	free_thread(t_thread *ph)
 	}
 }
 
+t_thread	*init_thread(int argc, char **argv)
+{
+	t_thread		*ph;
+	t_info			info;
+	long			i;
+
+	if (init_value(argc, argv, &info))
+		return (NULL);
+	i = 0;
+	ph = (t_thread *)malloc((sizeof(t_thread) * info.num_philo));
+	init_static_value(ph, info.num_philo);
+	init_mutex_thread(ph, info.num_philo);
+	while (i < info.num_philo)
+	{
+		ph[i].info = info;
+		ph[i].ph_name = i + 1;
+		ph[i].right_f = (long *)malloc(sizeof(long));
+		ph[(i + 1) % info.num_philo].left_f = ph[i].right_f;
+		*(ph[i].right_f) = 0;
+		i += 1;
+	}
+	return (ph);
+}
+
 void	thread_create(t_thread *ph, pthread_t **th_name)
 {
 	long	i;
@@ -42,7 +66,6 @@ void	thread_create(t_thread *ph, pthread_t **th_name)
 	{
 		th_name[i] = (pthread_t *)malloc(sizeof(pthread_t));
 		pthread_create(th_name[i], NULL, philo, (void *)(&ph[i]));
-		usleep(1000);
 		i++;
 	}
 	i = 0;

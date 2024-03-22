@@ -6,7 +6,7 @@
 #    By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/01 15:09:29 by sunghwki          #+#    #+#              #
-#    Updated: 2024/03/21 21:48:29 by sunghwki         ###   ########.fr        #
+#    Updated: 2024/03/22 16:39:16 by sunghwki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,11 @@
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g
+CFLAGS = -Wall -Werror -Wextra -g
 
 CLINK = -lpthread
 
-SOURCE = helper.c thread.c ft_lib.c philo.c init.c thread_helper.c
+SOURCE = helper.c thread.c ft_lib.c philo.c init.c thread_helper.c thread_status.c
 
 OBJECTS = $(SOURCE:.c=.o)
 
