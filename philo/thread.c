@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/22 20:15:47 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 20:54:03 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,39 +30,44 @@ void	sleep_philo(t_thread *ph, long start_eating, long cmp_time)
 		if (usec >= cmp_time || usec >= ph->info.time_to_die)
 			return ;
 		if (cmp_time - usec > THOUSAND)
-			usleep(800);
+			usleep(500);
 		else
 			usleep(100);
 	}
 }
 
+static int	eating_philo_right_fork(t_thread *ph, long start_eating)
+{
+	pthread_mutex_lock(ph->right_fork);
+	if (*ph->right_f)
+	{
+		pthread_mutex_unlock(ph->right_fork);
+		if (check_status(ph, start_eating, TAKE) == FUN_FAIL)
+			return (FUN_FAIL);
+		if (check_status(ph, start_eating, TAKE) == FUN_FAIL)
+			return (FUN_FAIL);
+		return (FUN_SUC);
+	}
+	else
+		pthread_mutex_unlock(ph->right_fork);
+	return (-1);
+}
+
 int	eating_philo(t_thread *ph, long start_eating)
 {
+	int	ret;
+
 	while (1)
 	{
 		pthread_mutex_lock(ph->left_fork);
 		if (!(*ph->left_f))
 		{
-			*ph->left_f = ~(*ph->left_f);
 			pthread_mutex_unlock(ph->left_fork);
-			pthread_mutex_lock(ph->right_fork);
-			if (*ph->right_f)
-			{
-				*ph->right_f = ~(*ph->right_f);
-				pthread_mutex_unlock(ph->right_fork);
-				if (check_status(ph, start_eating, TAKE) == FUN_FAIL)
-					return (FUN_FAIL);
-				if (check_status(ph, start_eating, TAKE) == FUN_FAIL)
-					return (FUN_FAIL);
+			ret = eating_philo_right_fork(ph, start_eating);
+			if (ret == FUN_SUC)
 				break ;
-			}
-			else
-			{
-				pthread_mutex_unlock(ph->right_fork);
-				pthread_mutex_lock(ph->left_fork);
-				*ph->left_f = ~(*ph->left_f);
-				pthread_mutex_unlock(ph->left_fork);
-			}
+			if (ret == FUN_FAIL)
+				return (FUN_FAIL);
 		}
 		else
 			pthread_mutex_unlock(ph->left_fork);
@@ -73,19 +78,24 @@ int	eating_philo(t_thread *ph, long start_eating)
 	return (FUN_SUC);
 }
 
+static void	start_philo(t_thread *ph, long *start_eating)
+{
+	while (1)
+	{
+		*start_eating = ft_usec_now();
+		if (*start_eating >= ph->start_time)
+			return ;
+		usleep(10);
+	}
+}
+
 void	*philo(void *input)
 {
 	t_thread	ph;
 	long		start_eating;
 
 	ph = *(t_thread *)input;
-	while (1)
-	{
-		start_eating = ft_usec_now();
-		if (start_eating >= ph.start_time)
-			break ;
-		usleep(5);
-	}
+	start_philo(&ph, &start_eating);
 	while (1)
 	{
 		if (eating_philo(&ph, start_eating) == FUN_FAIL)

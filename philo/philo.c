@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/22 19:15:19 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 20:48:16 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ t_thread	*init_thread(int argc, char **argv)
 	{
 		ph[i].info = info;
 		ph[i].start_time = start_time;
-		ph[i].ph_name = i + 1;
 		ph[i].right_f = (long *)malloc(sizeof(long));
 		ph[(i + 1) % info.num_philo].left_f = ph[i].right_f;
 		if (i % 2 == 0)

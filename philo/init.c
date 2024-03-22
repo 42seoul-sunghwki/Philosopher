@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 21:58:36 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/22 19:33:00 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 20:48:25 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,18 +100,20 @@ int	init_mutex_thread(t_thread *ph, int size)
 {
 	pthread_mutex_t	*fork_table;
 	pthread_mutex_t	*flag_mutex;
-	int				tmp;
+	int				i;
 
 	flag_mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 	pthread_mutex_init(flag_mutex, NULL);
-	tmp = size;
-	while (--size >= 0)
+	i = 0;
+	while (i < size)
 	{
 		fork_table = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 		pthread_mutex_init(fork_table, NULL);
-		ph[size].flag_mutex = flag_mutex;
-		ph[size].right_fork = fork_table;
-		ph[(size + 1) % tmp].left_fork = fork_table;
+		ph[i].flag_mutex = flag_mutex;
+		ph[i].right_fork = fork_table;
+		ph[(i + 1) % size].left_fork = fork_table;
+		ph[i].ph_name = i + 1;
+		i += 1;
 	}
 	return (TRUE);
 }

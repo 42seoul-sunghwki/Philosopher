@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 23:10:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/22 20:13:40 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 20:50:28 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ int	check_status(t_thread *ph, long start_eating, int flag)
 		if (*(ph->flag) != DIE)
 		{
 			*(ph->flag) = DIE;
-			printf("%ld %ld %s\n", (ft_usec_now() - ph->start_time) / THOUSAND, ph->ph_name, DIE_MSG);
+			printf("%ld %ld %s\n", (ft_usec_now() - ph->start_time)
+				/ THOUSAND, ph->ph_name, DIE_MSG);
 		}
 		pthread_mutex_unlock(ph->flag_mutex);
 		return (FUN_FAIL);
