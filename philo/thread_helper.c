@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 23:10:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/22 16:48:48 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 17:04:19 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	check_status(t_thread *ph, long start_eating, int flag)
 	now = ft_usec_now();
 	if (check_die(ph) == FUN_FAIL)
 		return (FUN_FAIL);
-	if (flag_check_status(ph, &msg, flag, now) == FUN_FAIL)
+	if (flag_check_status(ph, &msg, flag, now) == FUN_FAIL) // error
 		return (FUN_FAIL);
 	if (now - start_eating <= ph->info.time_to_die)
 	{

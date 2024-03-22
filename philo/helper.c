@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:27 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/22 16:50:49 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 17:16:48 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,18 @@ int	msg_philo(t_thread *ph, t_msg *msg)
 {
 	int	ret;
 
-	ret = pthread_mutex_lock(ph->print);
-	pthread_mutex_lock(ph->flag_mutex);
+	ret = pthread_mutex_lock(ph->flag_mutex);
 	if (ret || *(ph->flag) == DIE)
 	{
-		pthread_mutex_unlock(ph->print);
 		pthread_mutex_unlock(ph->flag_mutex);
 		return (ret);
 	}
 	else
-	{
-		printf("%ld %ld %s\n", msg->time, msg->ph, msg->msg);
 		pthread_mutex_unlock(ph->flag_mutex);
-		ret = pthread_mutex_unlock(ph->print);
-	}
+	pthread_mutex_lock(ph->print);
+	msg->time = (ft_usec_now() - ph->start_time) / THOUSAND;
+	printf("%ld %ld %s\n", msg->time, msg->ph, msg->msg);
+	pthread_mutex_unlock(ph->print);
 	return (ret);
 }
 
