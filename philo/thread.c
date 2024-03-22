@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/22 20:54:03 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 20:55:28 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,8 @@ void	*philo(void *input)
 		if (check_status(&ph, start_eating, EAT) == FUN_FAIL)
 			return (NULL);
 		sleep_philo(&ph, start_eating, ph.info.time_to_eat);
-		lock_fork(ph.left_fork, ph.left_f, FALSE);
-		lock_fork(ph.right_fork, ph.right_f, FALSE);
+		change_lock_fork(ph.left_fork, ph.left_f);
+		change_lock_fork(ph.right_fork, ph.right_f);
 		if (check_status(&ph, start_eating, SLEEP) == FUN_FAIL)
 			return (NULL);
 		sleep_philo(&ph, start_eating, ph.info.time_to_sleep

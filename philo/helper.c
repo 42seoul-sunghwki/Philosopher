@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:27 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/22 20:35:25 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 20:55:28 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,11 @@ int	msg_philo(t_thread *ph, t_msg *msg)
 	}
 }
 
-int	lock_fork(pthread_mutex_t *fork, long *flag, int fork_flag)
+int	change_lock_fork(pthread_mutex_t *fork, long *flag)
 {
 	int	ret;
 
 	ret = FUN_SUC;
-	(void)fork_flag;
 	ret = pthread_mutex_lock(fork);
 	*flag = ~(*flag);
 	ret = pthread_mutex_unlock(fork);
