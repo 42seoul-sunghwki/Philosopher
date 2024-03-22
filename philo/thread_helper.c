@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 23:10:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/22 17:04:19 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 17:23:38 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,15 @@ static int	flag_check_status(t_thread *ph, t_msg *msg, int flag, long long now)
 
 static int	check_die(t_thread *ph)
 {
-	pthread_mutex_lock(ph->count_mutex);
 	pthread_mutex_lock(ph->flag_mutex);
 	if (*(ph->flag) == DIE)
 	{
 		pthread_mutex_unlock(ph->flag_mutex);
-		pthread_mutex_unlock(ph->count_mutex);
 		return (FUN_FAIL);
 	}
 	else
 	{
 		pthread_mutex_unlock(ph->flag_mutex);
-		pthread_mutex_unlock(ph->count_mutex);
 		return (FUN_SUC);
 	}
 }

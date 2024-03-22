@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:39:03 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/22 16:40:05 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 17:27:49 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ static int	odd_philo_right_fork(t_thread *ph, long start_eating)
 	pthread_mutex_lock(ph->right_fork);
 	if (*ph->right_f == FALSE)
 	{
+		*ph->right_f = TRUE;
 		pthread_mutex_unlock(ph->right_fork);
-		lock_fork(ph->right_fork, ph->right_f, TRUE);
+		//lock_fork(ph->right_fork, ph->right_f, TRUE);
 		if (check_status(ph, start_eating, TAKE) == FUN_FAIL)
 			return (FUN_FAIL);
 		if (check_status(ph, start_eating, TAKE) == FUN_FAIL)
@@ -42,8 +43,9 @@ int	odd_philo(t_thread *ph, long start_eating)
 		pthread_mutex_lock(ph->left_fork);
 		if (*ph->left_f == FALSE)
 		{
+			*ph->left_f = TRUE;
 			pthread_mutex_unlock(ph->left_fork);
-			lock_fork(ph->left_fork, ph->left_f, TRUE);
+			//lock_fork(ph->left_fork, ph->left_f, TRUE);
 			ret = odd_philo_right_fork(ph, start_eating);
 			if (ret == FUN_FAIL)
 				return (FUN_FAIL);
@@ -64,8 +66,9 @@ static int	even_philo_left_fork(t_thread *ph, long start_eating)
 	pthread_mutex_lock(ph->left_fork);
 	if (*ph->left_f == FALSE)
 	{
+		*ph->left_f = TRUE;
 		pthread_mutex_unlock(ph->left_fork);
-		lock_fork(ph->left_fork, ph->left_f, TRUE);
+		//lock_fork(ph->left_fork, ph->left_f, TRUE);
 		if (check_status(ph, start_eating, TAKE) == FUN_FAIL)
 			return (FUN_FAIL);
 		if (check_status(ph, start_eating, TAKE) == FUN_FAIL)
@@ -89,8 +92,9 @@ int	even_philo(t_thread *ph, long start_eating)
 		pthread_mutex_lock(ph->right_fork);
 		if (*ph->right_f == FALSE)
 		{
+			*ph->right_f = TRUE;
 			pthread_mutex_unlock(ph->right_fork);
-			lock_fork(ph->right_fork, ph->right_f, TRUE);
+			//lock_fork(ph->right_fork, ph->right_f, TRUE);
 			ret = even_philo_left_fork(ph, start_eating);
 			if (ret == FUN_FAIL)
 				return (FUN_FAIL);
