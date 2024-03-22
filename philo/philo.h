@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:27:26 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/22 20:55:28 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 21:01:55 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,5 @@ int			check_atol(const char *input, long *output);
 /* thread_helper.c */
 int			check_status(t_thread *ph, long start_eating, int flag);
 void		*philo(void *input);
-
-/* thread_status.c */
-int			even_philo(t_thread *ph, long start_eating);
-int			odd_philo(t_thread *ph, long start_eating);
 
 #endif

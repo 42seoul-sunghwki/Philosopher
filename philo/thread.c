@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:37 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/22 20:55:28 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/22 21:02:18 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	*philo(void *input)
 
 	ph = *(t_thread *)input;
 	start_philo(&ph, &start_eating);
-	while (1)
+	while (TRUE)
 	{
 		if (eating_philo(&ph, start_eating) == FUN_FAIL)
 			return (NULL);
