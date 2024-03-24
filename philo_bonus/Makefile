@@ -6,7 +6,7 @@
 #    By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/20 14:19:43 by sunghwki          #+#    #+#              #
-#    Updated: 2024/03/24 18:52:16 by sunghwki         ###   ########.fr        #
+#    Updated: 2024/03/24 19:07:44 by sunghwki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ OBJECTS = $(SOURCE:.c=.o)
 NAME = philo_bonus
 
 $(NAME) : $(OBJECTS)
-			$(CC) $(CFLAGS) -o $(NAME) $(SOURCE) $(CLINK)
+			$(CC) $(CFLAGS) -g -o $(NAME) $(SOURCE) $(CLINK)
 
 all : $(NAME)
 
