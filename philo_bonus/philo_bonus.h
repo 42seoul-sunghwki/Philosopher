@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 22:04:39 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/24 15:22:20 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/24 15:36:00 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define PRINT		"print"
 # define COUNT		"count"
 # define FLAG		"flag"
+# define BE_FORK	"be_fork"
 
 # define NOT_CHECK	0
 # define SLEEP		1
@@ -65,12 +66,14 @@ typedef struct s_info {
 
 /******	t_sem	*****
 fork : fork value semaphore
+be_fork : fork binary semaphore before taking fork
 count : count value semaphore if must_eat is exist
 print : print binary semaphore
 flag  : flag binary semaphore like eating
 */
 typedef struct s_sem {
 	sem_t	*fork;
+	sem_t	*be_fork;
 	sem_t	*count;
 	sem_t	*print;
 	sem_t	*flag;

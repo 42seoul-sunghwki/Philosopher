@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 15:29:21 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/24 15:31:41 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/24 15:36:40 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,12 @@ void	*th_eating(void *in)
 	t_philo	*ph;
 
 	ph = (t_philo *)in;
+	sem_wait(ph->sem->be_fork);
 	sem_wait(ph->sem->fork);
 	print_msg(ph, ft_usec_now() - ph->info->start_time, TAKE);
 	sem_wait(ph->sem->fork);
 	print_msg(ph, ft_usec_now() - ph->info->start_time, TAKE);
+	sem_post(ph->sem->be_fork);
 	*(ph->flag) = EAT;
 	if (ph->info->num_must_eat != -1)
 		sem_wait(ph->sem->count);
