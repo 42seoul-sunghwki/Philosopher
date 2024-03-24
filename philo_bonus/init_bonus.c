@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:38:21 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/24 15:43:02 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/24 16:52:29 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_sem	*ft_init_sem(t_info *info)
 	sem->print = sem_open(PRINT, O_CREAT, 0644, 1);
 	sem->be_fork = sem_open(BE_FORK, O_CREAT, 0644, 1);
 	if (info->num_must_eat != -1)
-		sem->count = sem_open(COUNT, O_CREAT, 0644, info->num_must_eat);
+		sem->count = sem_open(COUNT, O_CREAT, 0644, info->philo_num);
 	else
 		sem->count = NULL;
 	if (sem->fork == SEM_FAILED || sem->print == SEM_FAILED
