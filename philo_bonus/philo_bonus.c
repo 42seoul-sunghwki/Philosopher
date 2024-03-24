@@ -6,13 +6,11 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:25:16 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/24 14:58:10 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/24 15:05:59 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
-
-
 
 int	philo(t_info *info, t_sem *sem)
 {

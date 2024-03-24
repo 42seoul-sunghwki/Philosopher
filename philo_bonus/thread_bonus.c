@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 15:29:21 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/24 14:55:35 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/24 15:31:41 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,31 @@ char	*print_msg_helper(t_philo *ph, long usec, int flag)
 {
 	char	*msec_str;
 	char	*name_str;
-	char	*tmp;
 	char	*ret;
+	char	*tmp;
 
 	usec = usec / THOUSAND;
 	msec_str = ft_itoa((int)usec);
 	name_str = ft_itoa((int)ph->info->name);
-	tmp = ft_strjoin(msec_str, " ");
-	ret = ft_strjoin(tmp, name_str);
+	ret = ft_strjoin(msec_str, " ");
+	tmp = ft_strjoin(ret, name_str);
 	free(msec_str);
 	free(name_str);
-	free(tmp);
-	if (flag == SLEEP)
-		tmp = ft_strjoin(ret, SLEEP_MSG);
-	else if (flag == EAT)
-		tmp = ft_strjoin(ret, EAT_MSG);
-	else if (flag == THINK)
-		tmp = ft_strjoin(ret, THINK_MSG);
-	else if (flag == TAKE)
-		tmp = ft_strjoin(ret, TAKE_MSG);
-	else if (flag == UNTAKE)
-		tmp = ft_strjoin(ret, UNTAKE_MSG);
-	else if (flag == DIED)
-		tmp = ft_strjoin(ret, DIE_MSG);
 	free(ret);
-	return (tmp);
+	if (flag == SLEEP)
+		ret = ft_strjoin(tmp, SLEEP_MSG);
+	else if (flag == EAT)
+		ret = ft_strjoin(tmp, EAT_MSG);
+	else if (flag == THINK)
+		ret = ft_strjoin(tmp, THINK_MSG);
+	else if (flag == TAKE)
+		ret = ft_strjoin(tmp, TAKE_MSG);
+	else if (flag == UNTAKE)
+		ret = ft_strjoin(tmp, UNTAKE_MSG);
+	else if (flag == DIED)
+		ret = ft_strjoin(tmp, DIE_MSG);
+	free(tmp);
+	return (ret);
 }
 
 void	print_msg(t_philo *ph, long usec, int flag)
@@ -52,6 +52,8 @@ void	print_msg(t_philo *ph, long usec, int flag)
 	len = ft_strlen(msg);
 	sem_wait(ph->sem->print);
 	write(1, msg, len);
+	if (flag == DIED)
+		exit(FUN_FAIL);
 	sem_post(ph->sem->print);
 }
 
