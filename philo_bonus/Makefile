@@ -6,7 +6,7 @@
 #    By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/20 14:19:43 by sunghwki          #+#    #+#              #
-#    Updated: 2024/03/24 14:59:45 by sunghwki         ###   ########.fr        #
+#    Updated: 2024/03/24 16:11:29 by sunghwki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ CFLAGS = -Wall -Werror -Wextra
 
 CLINK = -lpthread
 
-SOURCE = init_bonus.c philo_bonus.c thread_bonus.c ft_lib_bonus.c main_bonus.c ft_itoa_bonus.c ft_strjoin_bonus.c philo_state_bonus.c
+SOURCE =  ft_lib_bonus.c  ft_itoa_bonus.c ft_strjoin_bonus.c ft_print_msg_bonus.c \
+			philo_state_bonus.c init_bonus.c philo_bonus.c thread_bonus.c main_bonus.c
 
 OBJECTS = $(SOURCE:.c=.o)
 

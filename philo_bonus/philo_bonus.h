@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 22:04:39 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/24 15:36:00 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/24 16:20:17 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_info {
 	long	time_to_eat;
 	long	time_to_sleep;
 	long	num_must_eat;
+	long	eat_count;
 	long	start_time;
 }	t_info;
 
@@ -76,13 +77,13 @@ typedef struct s_sem {
 	sem_t	*be_fork;
 	sem_t	*count;
 	sem_t	*print;
-	sem_t	*flag;
 }		t_sem;
 
 /***** t_philo *****
 */
 typedef struct s_philo {
 	int		*flag;
+	sem_t	*flag_sem;
 	t_info	*info;
 	t_sem	*sem;
 }	t_philo;
@@ -109,10 +110,14 @@ void		ft_unlink_sem(t_sem **sem);
 
 /* philo_bonus.c */
 int			philo(t_info *info, t_sem *sem);
+char		*sem_flag_name(t_philo *ph);
+
+/* ft_print_msg_bonus.c */
+void		print_msg(t_philo *ph, long usec, int flag);
 
 /* thread_bonus.c */
-void		print_msg(t_philo *ph, long usec, int flag);
 void		*th_eating(void *in);
+void		*th_philo_eating(void *in);
 
 /* ft_strjoin_bonus.c */
 char		*ft_strjoin(char const *s1, char const *s2);
