@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 22:04:39 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/24 16:20:17 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/24 18:47:58 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ long		ft_atol(const char *str);
 long		ft_usec_now(void);
 
 /* philo_state_bonus.c */
-int			take_fork_philo(t_philo *ph, long *start_usec);
 int			eating_philo(t_philo *ph, long *start_usec);
 int			thinking_philo(t_philo *ph);
 int			sleeping_philo(t_philo *ph, long *start_usec);
