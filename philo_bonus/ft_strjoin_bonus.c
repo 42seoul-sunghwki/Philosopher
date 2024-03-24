@@ -1,38 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_bonus.c                                      :+:      :+:    :+:   */
+/*   ft_strjoin_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/20 14:25:16 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/24 14:58:10 by sunghwki         ###   ########.fr       */
+/*   Created: 2024/03/24 13:58:36 by sunghwki          #+#    #+#             */
+/*   Updated: 2024/03/24 13:58:42 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-
-
-int	philo(t_info *info, t_sem *sem)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int		flag;
-	long	start_usec;
-	t_philo	ph;
+	long	s1_size;
+	long	s2_size;
+	char	*tmp;
+	char	*ret;
 
-	flag = 0;
-	ph.info = info;
-	ph.sem = sem;
-	ph.flag = &flag;
-	start_usec = ft_usec_now();
-	while (TRUE)
-	{
-		if (eating_philo(&ph, &start_usec) == FUN_FAIL)
-			exit (FUN_FAIL);
-		if (sleeping_philo(&ph, &start_usec) == FUN_FAIL)
-			exit (FUN_FAIL);
-		if (thinking_philo(&ph) == FUN_FAIL)
-			exit (FUN_FAIL);
-	}
-	exit (FUN_SUC);
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	s1_size = ft_strlen(s1);
+	s2_size = ft_strlen(s2);
+	tmp = (char *)malloc(s1_size + s2_size + 1);
+	if (!tmp)
+		return (NULL);
+	ret = tmp;
+	while (*s1)
+		*tmp++ = *s1++;
+	while (*s2)
+		*tmp++ = *s2++;
+	*tmp = '\0';
+	return (ret);
 }

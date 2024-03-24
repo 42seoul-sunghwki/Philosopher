@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:38:21 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 17:41:02 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/24 13:43:54 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,17 +76,17 @@ t_sem	*ft_init_sem(t_info *info)
 		return (NULL);
 	sem_unlink(FORK);
 	sem_unlink(PRINT);
-	sem_unlink(PICK);
 	sem_unlink(COUNT);
+	sem_unlink(FLAG);
 	sem->fork = sem_open(FORK, O_CREAT, 0644, info->philo_num);
 	sem->print = sem_open(PRINT, O_CREAT, 0644, 1);
-	sem->pick = sem_open(PICK, O_CREAT, 0644, 1);
+	sem->flag = sem_open(FLAG, O_CREAT, 0644, 1);
 	if (info->num_must_eat != -1)
 		sem->count = sem_open(COUNT, O_CREAT, 0644, info->num_must_eat);
 	else
 		sem->count = NULL;
 	if (sem->fork == SEM_FAILED || sem->print == SEM_FAILED
-		|| sem->count == SEM_FAILED || sem->pick == SEM_FAILED)
+		|| sem->count == SEM_FAILED || sem->flag == SEM_FAILED)
 	{
 		free(sem);
 		return (NULL);
@@ -99,10 +99,10 @@ void	ft_unlink_sem(t_sem **sem)
 	sem_close((*sem)->fork);
 	sem_close((*sem)->print);
 	sem_close((*sem)->count);
-	sem_close((*sem)->pick);
+	sem_close((*sem)->flag);
 	free(*sem);
 	sem_unlink(FORK);
 	sem_unlink(PRINT);
 	sem_unlink(COUNT);
-	sem_unlink(PICK);
+	sem_unlink(FLAG);
 }

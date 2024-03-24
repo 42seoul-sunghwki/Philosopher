@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 22:04:39 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/21 19:40:24 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/24 14:58:50 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@
 # define FORK		"fork"
 # define PRINT		"print"
 # define COUNT		"count"
-# define DIE		"die"
-# define PICK		"pick"
+# define FLAG		"flag"
 
 # define NOT_CHECK	0
 # define SLEEP		1
@@ -47,12 +46,12 @@
 # define TAKE		5
 # define UNTAKE		6
 
-# define SLEEP_MSG	"is sleeping"
-# define EAT_MSG	"is eating"
-# define THINK_MSG	"is thinking"
-# define TAKE_MSG	"has taken a fork"
-# define UNTAKE_MSG	"drop a fork"
-# define DIE_MSG	"died"
+# define SLEEP_MSG	" is sleeping\n"
+# define EAT_MSG	" is eating\n"
+# define THINK_MSG	" is thinking\n"
+# define TAKE_MSG	" has taken a fork\n"
+# define UNTAKE_MSG	" drop a fork\n"
+# define DIE_MSG	" died\n"
 
 typedef struct s_info {
 	long	philo_num;
@@ -66,16 +65,15 @@ typedef struct s_info {
 
 /******	t_sem	*****
 fork : fork value semaphore
+count : count value semaphore if must_eat is exist
 print : print binary semaphore
-count : count value semaphore
-die   : die binary semaphore
+flag  : flag binary semaphore like eating
 */
 typedef struct s_sem {
-	sem_t	*pick;
 	sem_t	*fork;
-	sem_t	*print;
 	sem_t	*count;
-	//sem_t	*die;
+	sem_t	*print;
+	sem_t	*flag;
 }		t_sem;
 
 /***** t_philo *****
@@ -93,6 +91,13 @@ int			ft_isspace(char s1);
 long		ft_atol(const char *str);
 long		ft_usec_now(void);
 
+/* philo_state_bonus.c */
+int			take_fork_msg(t_philo *ph, long *start_usec);
+int			eating_philo(t_philo *ph, long *start_usec);
+int			thinking_philo(t_philo *ph);
+int			sleeping_philo(t_philo *ph, long *start_usec);
+int			stop_philo(t_philo *ph, long *start_usec, long time);
+
 /* init_bonus.c */
 int			check_atol(const char *input, long *output);
 int			ft_init_info(t_info *info, int argc, char **argv);
@@ -105,5 +110,11 @@ int			philo(t_info *info, t_sem *sem);
 /* thread_bonus.c */
 void		print_msg(t_philo *ph, long usec, int flag);
 void		*th_eating(void *in);
+
+/* ft_strjoin_bonus.c */
+char		*ft_strjoin(char const *s1, char const *s2);
+
+/*	ft_itoa_bonus.c */
+char		*ft_itoa(int n);
 
 #endif
