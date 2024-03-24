@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:38:21 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/24 19:30:15 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/24 19:48:45 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	ft_init_info(t_info *info, int argc, char **argv)
 	i = 1;
 	while (i < argc)
 	{
-		if (check_atol(argv[i], &tmp[i]))
+		if (check_atol(argv[i], &(tmp[i])))
 			return (FUN_FAIL);
 		i++;
 	}
@@ -101,7 +101,12 @@ void	ft_unlink_sem(t_sem **sem)
 	sem_close((*sem)->print);
 	sem_close((*sem)->count);
 	sem_close((*sem)->be_fork);
+	free((*sem)->fork);
+	free((*sem)->print);
+	free((*sem)->count);
+	free((*sem)->be_fork);
 	free(*sem);
+	*sem = NULL;
 	sem_unlink(FORK);
 	sem_unlink(PRINT);
 	sem_unlink(COUNT);

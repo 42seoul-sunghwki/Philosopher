@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 22:04:39 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/24 18:47:58 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/24 19:43:26 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@
 
 typedef struct s_info {
 	long	philo_num;
-	long	name;
 	long	time_to_die;
 	long	time_to_eat;
 	long	time_to_sleep;
 	long	num_must_eat;
 	long	eat_count;
+	long	name;
 	long	start_time;
 }	t_info;
 
