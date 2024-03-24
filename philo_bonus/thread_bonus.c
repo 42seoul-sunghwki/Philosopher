@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 15:29:21 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/24 18:30:48 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/24 19:53:09 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	*th_eating(void *in)
 	sem_wait(ph->flag_sem);
 	*(ph->flag) = EAT;
 	sem_post(ph->flag_sem);
+	ph = NULL;
 	return (NULL);
 }
 

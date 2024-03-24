@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:38:21 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/24 19:48:45 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/24 19:50:44 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,6 @@ void	ft_unlink_sem(t_sem **sem)
 	sem_close((*sem)->print);
 	sem_close((*sem)->count);
 	sem_close((*sem)->be_fork);
-	free((*sem)->fork);
-	free((*sem)->print);
-	free((*sem)->count);
-	free((*sem)->be_fork);
 	free(*sem);
 	*sem = NULL;
 	sem_unlink(FORK);
