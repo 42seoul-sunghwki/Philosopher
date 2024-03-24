@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 16:10:52 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/24 19:23:21 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/24 19:31:55 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static char	*print_msg_helper(t_philo *ph, long usec, int flag)
 	else if (flag == DIED)
 		ret = ft_strjoin(tmp, DIE_MSG);
 	free(tmp);
+	tmp = NULL;
 	return (ret);
 }
 
@@ -69,6 +70,7 @@ void	print_msg(t_philo *ph, long usec, int flag)
 		tmp = sem_flag_name(ph);
 		sem_unlink(tmp);
 		free(tmp);
+		free(msg);
 		exit (FUN_FAIL);
 	}
 	sem_post(ph->sem->print);

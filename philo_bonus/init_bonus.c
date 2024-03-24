@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:38:21 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/24 16:52:29 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/24 19:30:15 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	ft_init_info(t_info *info, int argc, char **argv)
 		info->num_must_eat = tmp[5];
 	else
 		info->num_must_eat = -1;
+	info->eat_count = 0;
 	return (0);
 }
 
@@ -77,7 +78,6 @@ t_sem	*ft_init_sem(t_info *info)
 	sem_unlink(FORK);
 	sem_unlink(PRINT);
 	sem_unlink(COUNT);
-	sem_unlink(FLAG);
 	sem_unlink(BE_FORK);
 	sem->fork = sem_open(FORK, O_CREAT, 0644, info->philo_num);
 	sem->print = sem_open(PRINT, O_CREAT, 0644, 1);
