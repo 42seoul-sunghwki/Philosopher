@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 15:29:21 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/24 16:51:29 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/24 18:30:48 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,17 @@ void	*th_eating(void *in)
 	return (NULL);
 }
 
-
 void	*th_philo_eating(void *in)
 {
 	t_philo	*ph;
 
 	ph = (t_philo *)in;
-	write(1, "before sem_wait\n", 16);
 	sem_wait(ph->sem->print);
 	sem_wait(ph->sem->count);
 	sem_wait(ph->flag_sem);
 	*(ph->flag) = TAKE;
-	write(1, "th_philo_eating\n", 16);
 	sem_post(ph->flag_sem);
 	sem_post(ph->sem->count);
 	sem_post(ph->sem->print);
-	write(1, "after sem_wait\n", 15);
 	return (NULL);
 }
