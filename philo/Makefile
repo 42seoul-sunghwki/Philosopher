@@ -6,7 +6,7 @@
 #    By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/01 15:09:29 by sunghwki          #+#    #+#              #
-#    Updated: 2024/03/24 19:07:40 by sunghwki         ###   ########.fr        #
+#    Updated: 2024/03/24 19:58:11 by sunghwki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ OBJECTS = $(SOURCE:.c=.o)
 NAME = philo
 
 $(NAME) : $(OBJECTS)
-			$(CC) $(CFLAGS) -g -o $(NAME) $(SOURCE) $(CLINK)
+			$(CC) $(CFLAGS) -o $(NAME) $(SOURCE) $(CLINK)
 
 all : $(NAME)
 
