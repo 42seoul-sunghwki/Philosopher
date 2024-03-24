@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 16:10:52 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/24 18:41:35 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/24 19:23:21 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,5 @@ void	print_msg(t_philo *ph, long usec, int flag)
 		exit (FUN_FAIL);
 	}
 	sem_post(ph->sem->print);
+	free(msg);
 }

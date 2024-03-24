@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:31 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/24 19:05:00 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/24 19:09:25 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	thread_create(t_thread *ph, pthread_t **th_name)
 	while (i < ph[0].info.num_philo)
 	{
 		pthread_join(*th_name[i], NULL);
-		free((void *)(*th_name[i]));
+		free((void *)(th_name[i]));
 		i++;
 	}
 }

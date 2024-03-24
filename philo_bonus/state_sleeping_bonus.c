@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:50:08 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/24 18:50:28 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/24 19:23:43 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ int	sleeping_philo(t_philo *ph, long *start_usec)
 	long	now_usec;
 	long	cmp_time;
 
+	now_usec = ft_usec_now();
+	cmp_time = ph->info->time_to_eat + ph->info->time_to_sleep;
 	if (ph->info->num_must_eat > 0 && ph->info->eat_count
 		== ph->info->num_must_eat)
 	{
 		if (check_philo_eating(ph) == FUN_FAIL)
 			return (FUN_FAIL);
 	}
-	now_usec = ft_usec_now();
-	cmp_time = ph->info->time_to_eat + ph->info->time_to_sleep;
 	print_msg(ph, now_usec - ph->info->start_time, SLEEP);
 	if (stop_philo(ph, start_usec, cmp_time) == FUN_FAIL)
 		return (FUN_FAIL);
