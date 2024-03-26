@@ -3,14 +3,12 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+         #
+#    By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/20 14:19:43 by sunghwki          #+#    #+#              #
-#    Updated: 2024/03/24 19:58:03 by sunghwki         ###   ########.fr        #
+#    Updated: 2024/03/26 09:05:20 by sunghwki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-.SUFFIXES = .c .o
 
 CC = cc
 
