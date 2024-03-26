@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:09:27 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/22 20:55:28 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/26 09:10:22 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	check_atol(const char *input, long *output)
 	i = 0;
 	while (input[i])
 	{
+		if (i == 0 && (input[i] == '-' || input[i] == '+'))
+			i++;
 		if (!ft_isdigit(input[i++]))
 		{
 			printf("NOT INTEGER!\n");
