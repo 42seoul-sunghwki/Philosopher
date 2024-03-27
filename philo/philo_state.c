@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   state_philo.c                                      :+:      :+:    :+:   */
+/*   philo_state.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 11:10:16 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/27 11:10:40 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/27 11:15:20 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	sleeping_philo(t_thread *ph, long start_eating)
 	if (check_status(ph, start_eating, SLEEP) == FUN_FAIL)
 		return (FUN_FAIL);
 	stop_philo(ph, start_eating, ph->info.time_to_sleep
-			+ ph->info.time_to_eat);
+		+ ph->info.time_to_eat);
 	return (FUN_SUC);
 }
 
