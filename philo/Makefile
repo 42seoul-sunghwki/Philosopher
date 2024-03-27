@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sunghwki <sunghwki@student.42seoul.kr>     +#+  +:+       +#+         #
+#    By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/01 15:09:29 by sunghwki          #+#    #+#              #
-#    Updated: 2024/03/26 09:05:10 by sunghwki         ###   ########.fr        #
+#    Updated: 2024/03/27 11:11:23 by sunghwki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CFLAGS = -Wall -Werror -Wextra
 
 CLINK = -lpthread
 
-SOURCE = helper.c thread.c ft_lib.c philo.c init.c thread_helper.c
+SOURCE = helper.c thread.c ft_lib.c philo.c init.c thread_helper.c state_philo.c
 
 OBJECTS = $(SOURCE:.c=.o)
 

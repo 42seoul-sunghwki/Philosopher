@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 21:58:36 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/22 21:34:07 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/27 11:02:57 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	init_static_value(t_thread *ph, int size)
 		ph[size].flag = flag;
 		ph[size].how_many_eat = 0;
 	}
-	return (TRUE);
+	return (FUN_SUC);
 }
 
 int	init_mutex_thread(t_thread *ph, int size)
@@ -115,5 +115,5 @@ int	init_mutex_thread(t_thread *ph, int size)
 		ph[i].ph_name = i + 1;
 		i += 1;
 	}
-	return (TRUE);
+	return (FUN_SUC);
 }

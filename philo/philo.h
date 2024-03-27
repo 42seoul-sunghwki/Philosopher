@@ -6,7 +6,7 @@
 /*   By: sunghwki <sunghwki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:27:26 by sunghwki          #+#    #+#             */
-/*   Updated: 2024/03/22 21:55:03 by sunghwki         ###   ########.fr       */
+/*   Updated: 2024/03/27 11:11:46 by sunghwki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,12 @@ int			ft_isdigit(int c);
 int			ft_isspace(char s1);
 long		ft_atol(const char *str);
 long		ft_usec_now(void);
+
+/* state_philo.c */
+int			eating_philo(t_thread *ph, long *start_eating);
+int			sleeping_philo(t_thread *ph, long start_eating);
+int			thinking_philo(t_thread *ph, long start_eating);
+void		stop_philo(t_thread *ph, long start_eating, long cmp_time);
 
 /* init.c */
 int			init_value(int argc, char **argv, t_info *info);
